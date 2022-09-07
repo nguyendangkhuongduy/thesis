@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -29,6 +31,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @EnableGlobalMethodSecurity(
 		prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -71,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 
 		@Bean
-		public CorsConfigurationSource corsConfiguration() {
+		public CorsConfigurationSource corsConfigurationSource() {
 				CorsConfiguration corsConfig = this.getCorsConfiguration();
 				UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 				source.registerCorsConfiguration("/**", corsConfig);
@@ -80,7 +83,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		private CorsConfiguration getCorsConfiguration() {
 				CorsConfiguration corsConfig = new CorsConfiguration();
-				corsConfig.setAllowCredentials(true);
 				corsConfig.setAllowedOrigins(Collections.singletonList("*"));
 				corsConfig.setAllowedHeaders(Collections.singletonList("*"));
 				corsConfig.setAllowedMethods(Collections.singletonList("*"));

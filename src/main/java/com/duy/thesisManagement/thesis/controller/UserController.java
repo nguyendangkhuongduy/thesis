@@ -30,12 +30,12 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Authentication error")
         }
     )
-    public ResponseEntity<UsersResponse> getUsers()
-    {
-        UsersResponse result = new UsersResponse();
-        result.setUsers(List.of("duy", "Di"));
-        return ResponseEntity.ok(result);
-    }
+//    public ResponseEntity<UsersResponse> getUsers()
+//    {
+//        UsersResponse result = new UsersResponse();
+//        result.setUsers(List.of("duy", "Di"));
+//        return ResponseEntity.ok(result);
+//    }
 
     @PostMapping
     public ResponseEntity<Void> createUser()

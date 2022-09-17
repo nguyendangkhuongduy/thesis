@@ -7,12 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserRequestDTO {
+public class UserCreationDTO {
 	private String username;
 	private String password;
 	private String email;
 	private Boolean active;
-	private String fullname;
+	private String fullName;
 	private String phone;
 	private String gender;
 	private Date createdDate;

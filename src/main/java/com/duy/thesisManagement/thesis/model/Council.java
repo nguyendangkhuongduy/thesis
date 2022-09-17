@@ -31,7 +31,7 @@ public class Council {
     private Date createdDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Faculty facultyId;
+    private Faculty faculty;
     @OneToMany(mappedBy = "councilId")
     private Set<CouncilPosition> councilPositionSet;
     @OneToMany(mappedBy = "councilId")

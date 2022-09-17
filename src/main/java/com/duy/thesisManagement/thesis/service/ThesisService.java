@@ -4,13 +4,13 @@ import com.duy.thesisManagement.thesis.model.Thesis;
 import java.util.List;
 
 public interface ThesisService {
-    public List<Thesis> getThesis();
+    public List<Thesis> getTheses();
 
-    public boolean createdThesis(Thesis thesis);
+    public Thesis createdThesis(Thesis thesis);
 
     public Thesis getThesisById(int id);
 
-    public boolean deleteThesis(int id);
+    public void deleteThesis(Integer id);
 
 
 

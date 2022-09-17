@@ -5,9 +5,9 @@ import com.duy.thesisManagement.thesis.model.Faculty;
 import java.util.List;
 
 public interface FacultyService {
-    public List<Faculty> getFaculty();
+    public List<Faculty> getAllFaculties();
 
-    public boolean createdFaculty(Faculty faculty);
+    public Faculty createdFaculty(Faculty faculty);
 
-    public boolean deleteFaculty(int id);
+    public void deleteFaculty(Integer id);
 }

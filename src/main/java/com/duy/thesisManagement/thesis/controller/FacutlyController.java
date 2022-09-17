@@ -24,7 +24,7 @@ public class FacutlyController {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Faculty>> listAllFaculty(){
-        List<Faculty> listFaculty= facultyService.getFaculty();
+        List<Faculty> listFaculty= facultyService.getAllFaculties();
         if(listFaculty.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
@@ -34,8 +34,8 @@ public class FacutlyController {
 
     @PostMapping()
     public ResponseEntity<?> createdFaculty(@Valid @RequestBody Faculty faculty){
-        facultyService.createdFaculty(faculty);
-        return ResponseEntity.status(HttpStatus.CREATED.value()).build();
+        Faculty createdFaculty = facultyService.createdFaculty(faculty);
+        return ResponseEntity.ok(createdFaculty);
     }
 
 

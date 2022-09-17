@@ -3,10 +3,9 @@ package com.duy.thesisManagement.thesis.controller;
 import com.duy.thesisManagement.thesis.dto.AuthenticationRequestDTO;
 import com.duy.thesisManagement.thesis.dto.JwtResponse;
 import com.duy.thesisManagement.thesis.dto.UserDetailsImpl;
-import com.duy.thesisManagement.thesis.dto.UserRequestDTO;
+import com.duy.thesisManagement.thesis.dto.UserCreationDTO;
 import com.duy.thesisManagement.thesis.jwt.JwtUtils;
 import com.duy.thesisManagement.thesis.model.AppRole;
-import com.duy.thesisManagement.thesis.model.Faculty;
 import com.duy.thesisManagement.thesis.model.Role;
 import com.duy.thesisManagement.thesis.model.User;
 import com.duy.thesisManagement.thesis.repository.RoleRepository;
@@ -63,28 +62,28 @@ public class AuthenticationController {
 		}
 
 		@PostMapping("/signup")
-		public ResponseEntity<?> registerUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
-				if (userRepository.existsByUsername(userRequestDTO.getUsername())) {
+		public ResponseEntity<?> registerUser(@Valid @RequestBody UserCreationDTO userCreationDTO) {
+				if (userRepository.existsByUsername(userCreationDTO.getUsername())) {
 						return ResponseEntity
 								.badRequest()
 								.body("Error: Username is already taken!");
 				}
-				if (userRepository.existsByEmail(userRequestDTO.getEmail())) {
+				if (userRepository.existsByEmail(userCreationDTO.getEmail())) {
 						return ResponseEntity
 								.badRequest()
 								.body(new ErrorMessage("Error: Email is already in use!"));
 				}
 				// Create new user's account
-				User user = User.builder().username(userRequestDTO.getUsername())
-						.email(userRequestDTO.getEmail())
-						.password(encoder.encode(userRequestDTO.getPassword())).fullName(userRequestDTO.getFullname())
-						.phone(userRequestDTO.getPhone()).gender(userRequestDTO.getGender())
-						.createdDate(userRequestDTO.getCreatedDate())
-						.active(userRequestDTO.getActive()).build();
+				User user = User.builder().username(userCreationDTO.getUsername())
+						.email(userCreationDTO.getEmail())
+						.password(encoder.encode(userCreationDTO.getPassword())).fullName(userCreationDTO.getFullName())
+						.phone(userCreationDTO.getPhone()).gender(userCreationDTO.getGender())
+						.createdDate(userCreationDTO.getCreatedDate())
+						.active(userCreationDTO.getActive()).build();
 
 
 
-				Set<String> strRoles = userRequestDTO.getRoles();
+				Set<String> strRoles = userCreationDTO.getRoles();
 				Set<Role> roles = new HashSet<>();
 				if (strRoles == null) {
 						return ResponseEntity.badRequest().body(new ErrorMessage("Missing roles in request body"));

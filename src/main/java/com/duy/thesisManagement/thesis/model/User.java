@@ -47,7 +47,7 @@ public class User {
 
 		@ManyToOne(fetch = FetchType.EAGER)
 		@JoinColumn(name = "faculty_id", referencedColumnName = "id")
-		private Faculty facultyId;
+		private Faculty faculty;
 		@OneToMany(mappedBy = "userId")
 		private Set<CouncilPosition> councilPositionSet;
 

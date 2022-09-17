@@ -38,7 +38,7 @@ public class Thesis {
     private Council councilId;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     @ManyToOne
-    private Faculty facultyId;
+    private Faculty faculty;
     @OneToMany(mappedBy = "thesisId")
     private Set<Score> scoreSet;
     @OneToMany(mappedBy = "thesisId")

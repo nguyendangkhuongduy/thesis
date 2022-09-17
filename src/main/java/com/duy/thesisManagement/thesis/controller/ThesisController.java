@@ -1,13 +1,10 @@
 package com.duy.thesisManagement.thesis.controller;
 
 
-import com.duy.thesisManagement.thesis.dto.FacultyRequestDTO;
 import com.duy.thesisManagement.thesis.dto.ThesisRequestDTO;
-import com.duy.thesisManagement.thesis.dto.UserRequestDTO;
 import com.duy.thesisManagement.thesis.model.Council;
 import com.duy.thesisManagement.thesis.model.Faculty;
 import com.duy.thesisManagement.thesis.model.Thesis;
-import com.duy.thesisManagement.thesis.model.User;
 import com.duy.thesisManagement.thesis.repository.CouncilRepository;
 import com.duy.thesisManagement.thesis.repository.FacultyRepository;
 import com.duy.thesisManagement.thesis.repository.ThesisRepository;
@@ -38,7 +35,7 @@ public class ThesisController {
 
     @GetMapping("/thesis")
     public List<Thesis> getThesis() {
-        return thesisService.getThesis();
+        return thesisService.getTheses();
     }
 
     @GetMapping(path = "/thesis/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -75,7 +72,7 @@ public class ThesisController {
         thesis.setCouncilId(c);
 
         Faculty f = facultyRepository.getReferenceById(thesisRequestDTO.getFacultyId());
-        thesis.setFacultyId(f);
+        thesis.setFaculty(f);
 
         thesisRepository.save(thesis);
         return ResponseEntity.ok().build();

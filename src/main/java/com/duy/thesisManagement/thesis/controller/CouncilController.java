@@ -2,11 +2,7 @@ package com.duy.thesisManagement.thesis.controller;
 
 
 import com.duy.thesisManagement.thesis.dto.CouncilRequestDTO;
-import com.duy.thesisManagement.thesis.dto.UserRequestDTO;
 import com.duy.thesisManagement.thesis.model.Council;
-import com.duy.thesisManagement.thesis.model.Faculty;
-import com.duy.thesisManagement.thesis.model.Position;
-import com.duy.thesisManagement.thesis.model.User;
 import com.duy.thesisManagement.thesis.repository.CouncilRepository;
 import com.duy.thesisManagement.thesis.repository.FacultyRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.PseudoColumnUsage;
 import java.util.List;
 
 @RestController

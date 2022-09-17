@@ -50,7 +50,7 @@ public class ThesisController {
 
     @PostMapping("/thesis")
     public ResponseEntity<?> createdThesis(@Valid @RequestBody Thesis thesis){
-        if(thesisRepository.existsByThesisname(thesisRequestDTO.getName())){
+        if(thesisRepository.existsByName(thesisRequestDTO.getName())){
             return ResponseEntity
                     .badRequest()
                     .body("Error: Thesis have been created!!");

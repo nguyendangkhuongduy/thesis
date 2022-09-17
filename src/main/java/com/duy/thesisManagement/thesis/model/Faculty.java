@@ -23,10 +23,12 @@ public class Faculty {
     private String name;
 
 
-    @OneToMany(mappedBy = "facultyId")
+    @OneToMany(mappedBy = "faculty")
     private Set<User> userSet;
-    @OneToMany(mappedBy = "facultyId")
+
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Council> councilSet;
-    @OneToMany(mappedBy = "facultyId")
+
+    @OneToMany(mappedBy = "faculty")
     private Set<Thesis> thesisSet;
 }

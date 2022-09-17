@@ -33,10 +33,11 @@ public class Thesis {
     @NotBlank
     @Column(name = "total_score")
     private float totalScore;
-    @JoinColumn(name = "council_id", referencedColumnName = "id")
+    @JoinColumn(name = "council_id")
     @ManyToOne
     private Council councilId;
-    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+
+    @JoinColumn(name = "faculty_id")
     @ManyToOne
     private Faculty faculty;
     @OneToMany(mappedBy = "thesisId")

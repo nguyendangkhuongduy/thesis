@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface ThesisRepository extends JpaRepository<Thesis, Integer> {
 
-    Optional<Thesis> findThesisByname(String name);
-    Boolean existsByThesisname(String name);
+    Optional<Thesis> findByName(String name);
+    Boolean existsByName(String name);
 }

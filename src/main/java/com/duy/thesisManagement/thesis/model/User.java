@@ -46,8 +46,10 @@ public class User {
 		private Date createdDate;
 
 		@ManyToOne(fetch = FetchType.EAGER)
-		@JoinColumn(name = "faculty_id", referencedColumnName = "id")
+
+		@JoinColumn(name = "faculty_id")
 		private Faculty faculty;
+
 		@OneToMany(mappedBy = "userId")
 		private Set<CouncilPosition> councilPositionSet;
 

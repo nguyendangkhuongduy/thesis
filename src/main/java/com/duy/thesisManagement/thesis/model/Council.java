@@ -30,8 +30,10 @@ public class Council {
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date createdDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "faculty_id", nullable = false)
     private Faculty faculty;
+
     @OneToMany(mappedBy = "councilId")
     private Set<CouncilPosition> councilPositionSet;
     @OneToMany(mappedBy = "councilId")

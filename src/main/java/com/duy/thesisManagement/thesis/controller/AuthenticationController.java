@@ -6,6 +6,7 @@ import com.duy.thesisManagement.thesis.dto.UserDetailsImpl;
 import com.duy.thesisManagement.thesis.dto.UserRequestDTO;
 import com.duy.thesisManagement.thesis.jwt.JwtUtils;
 import com.duy.thesisManagement.thesis.model.AppRole;
+import com.duy.thesisManagement.thesis.model.Faculty;
 import com.duy.thesisManagement.thesis.model.Role;
 import com.duy.thesisManagement.thesis.model.User;
 import com.duy.thesisManagement.thesis.repository.RoleRepository;
@@ -76,7 +77,12 @@ public class AuthenticationController {
 				// Create new user's account
 				User user = User.builder().username(userRequestDTO.getUsername())
 						.email(userRequestDTO.getEmail())
-						.password(encoder.encode(userRequestDTO.getPassword())).build();
+						.password(encoder.encode(userRequestDTO.getPassword())).fullName(userRequestDTO.getFullname())
+						.phone(userRequestDTO.getPhone()).gender(userRequestDTO.getGender())
+						.createdDate(userRequestDTO.getCreatedDate())
+						.active(userRequestDTO.getActive()).build();
+
+
 
 				Set<String> strRoles = userRequestDTO.getRoles();
 				Set<Role> roles = new HashSet<>();

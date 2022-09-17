@@ -1,6 +1,8 @@
 package com.duy.thesisManagement.thesis.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,8 +12,10 @@ import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Set;
 
-@NoArgsConstructor
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "thesis")
 public class Thesis {
@@ -20,6 +24,8 @@ public class Thesis {
     private int id;
     @NotBlank
     private String name;
+    @NotBlank
+    private boolean active;
     @NotBlank
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     @Column(name = "created_date")

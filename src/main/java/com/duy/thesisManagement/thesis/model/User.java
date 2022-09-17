@@ -32,6 +32,8 @@ public class User {
 		@Email
 		private String email;
 		@NotBlank
+		private boolean active;
+		@NotBlank
 		private String password;
 		@NotBlank
 		private String fullName;

@@ -36,4 +36,13 @@ public class FacultyServiceImpl implements FacultyService {
         }
         throw new ResourceNotFoundException("Cannot find any Faculty with id: " + id);
     }
+
+    @Override
+    public Faculty getFacultyById(Integer facultyId) {
+        Optional<Faculty> facultyOpt = this.facultyRepository.findById(facultyId);
+        if (facultyOpt.isPresent()) {
+            return facultyOpt.get();
+        }
+        throw new ResourceNotFoundException("Cannot find any faculty with id: "+ facultyId);
+    }
 }

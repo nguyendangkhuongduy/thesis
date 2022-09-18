@@ -41,8 +41,6 @@ public class AuthenticationController {
 
 		private final RoleRepository roleRepository;
 
-		private final PasswordEncoder encoder;
-
 		private final JwtUtils jwtUtils;
 
 		@PostMapping("/signin")
@@ -59,59 +57,6 @@ public class AuthenticationController {
 				JwtResponse jwtResponse = JwtResponse.builder().token(jwt).username(userDetails.getUsername())
 						.email(userDetails.getEmail()).roles(roles).build();
 				return ResponseEntity.ok(jwtResponse);
-		}
-
-		@PostMapping("/signup")
-		public ResponseEntity<?> registerUser(@Valid @RequestBody UserCreationDTO userCreationDTO) {
-				if (userRepository.existsByUsername(userCreationDTO.getUsername())) {
-						return ResponseEntity
-								.badRequest()
-								.body("Error: Username is already taken!");
-				}
-				if (userRepository.existsByEmail(userCreationDTO.getEmail())) {
-						return ResponseEntity
-								.badRequest()
-								.body(new ErrorMessage("Error: Email is already in use!"));
-				}
-				// Create new user's account
-				User user = User.builder().username(userCreationDTO.getUsername())
-						.email(userCreationDTO.getEmail())
-						.password(encoder.encode(userCreationDTO.getPassword())).fullName(userCreationDTO.getFullName())
-						.phone(userCreationDTO.getPhone()).gender(userCreationDTO.getGender())
-						.createdDate(userCreationDTO.getCreatedDate())
-						.active(userCreationDTO.getActive()).build();
-
-
-
-				Set<String> strRoles = userCreationDTO.getRoles();
-				Set<Role> roles = new HashSet<>();
-				if (strRoles == null) {
-						return ResponseEntity.badRequest().body(new ErrorMessage("Missing roles in request body"));
-				} else {
-						// FIXME refactor it, encapsulate logic inside Enum
-						strRoles.forEach(role -> {
-								switch (role) {
-										case "admin":
-												Role adminRole = roleRepository.findByName(AppRole.ROLE_ADMIN)
-														.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-												roles.add(adminRole);
-												break;
-										case "manager":
-												Role modRole = roleRepository.findByName(AppRole.ROLE_MANAGER)
-														.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-												roles.add(modRole);
-												break;
-										case "associate":
-												Role associate = roleRepository.findByName(AppRole.ROLE_ASSOCIATE)
-														.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-												roles.add(associate);
-												break;
-								}
-						});
-				}
-				user.setRoles(roles);
-				userRepository.save(user);
-				return ResponseEntity.ok(new ErrorMessage("User registered successfully!"));
 		}
 
 }

@@ -22,10 +22,6 @@ public class Faculty {
     @NotBlank
     private String name;
 
-
-    @OneToMany(mappedBy = "faculty")
-    private Set<User> userSet;
-
     @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Council> councilSet;
 

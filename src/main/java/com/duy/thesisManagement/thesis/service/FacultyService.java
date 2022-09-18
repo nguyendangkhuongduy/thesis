@@ -10,4 +10,6 @@ public interface FacultyService {
     public Faculty createdFaculty(Faculty faculty);
 
     public void deleteFaculty(Integer id);
+
+    Faculty getFacultyById(Integer facultyId);
 }

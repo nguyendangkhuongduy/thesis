@@ -1,14 +1,17 @@
 package com.duy.thesisManagement.thesis.controller;
 
 
-import com.duy.thesisManagement.thesis.dto.ThesisRequestDTO;
-import com.duy.thesisManagement.thesis.model.Council;
-import com.duy.thesisManagement.thesis.model.Faculty;
-import com.duy.thesisManagement.thesis.model.Thesis;
+import com.duy.thesisManagement.thesis.dto.*;
+import com.duy.thesisManagement.thesis.model.*;
 import com.duy.thesisManagement.thesis.repository.CouncilRepository;
 import com.duy.thesisManagement.thesis.repository.FacultyRepository;
 import com.duy.thesisManagement.thesis.repository.ThesisRepository;
 import com.duy.thesisManagement.thesis.service.ThesisService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,55 +30,58 @@ public class ThesisController {
     @Autowired
     private ThesisService thesisService;
 
-    private ThesisRepository thesisRepository;
-    private CouncilRepository councilRepository;
-    private FacultyRepository facultyRepository;
-
     private ThesisRequestDTO thesisRequestDTO;
 
-    @GetMapping("/thesis")
-    public List<Thesis> getThesis() {
-        return thesisService.getTheses();
+    @GetMapping( path = "/thesis", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(
+            description = "get all theses",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching theses",
+                            content = @Content(schema = @Schema(implementation = ThesisRequestDTO.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error")
+            }
+    )
+    public ResponseEntity<ThesisResponse> getTheses() {
+        List<ThesisRequestDTO> thesis = thesisService.getTheses();
+        ThesisResponse response = new ThesisResponse();
+        response.setTheses(thesis);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping(path = "/thesis/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Thesis> ThesisById(@PathVariable(value = "id") Integer id){
-        Thesis thesis= thesisService.getThesisById(id);
-        if(thesis == null) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<Thesis>(thesis, HttpStatus.OK);
+    @Operation(
+            description = "get dedicated thesis by id",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching thesis by id",
+                            content = @Content(schema = @Schema(implementation = UserDTO.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error"),
+                    @ApiResponse(responseCode = "404", description = "Cannot find any thesis")
+            }
+    )
+    public ResponseEntity<ThesisRequestDTO> getThesis(@PathVariable(value = "id") Integer id){
+        ThesisRequestDTO thesis = thesisService.getThesisById(id);
+        return ResponseEntity.ok(thesis);
     }
 
 
     @PostMapping("/thesis")
-    public ResponseEntity<?> createdThesis(@Valid @RequestBody Thesis thesis){
-        if(thesisRepository.existsByName(thesisRequestDTO.getName())){
-            return ResponseEntity
-                    .badRequest()
-                    .body("Error: Thesis have been created!!");
-        }
-
-        thesisService.createdThesis(thesis);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ThesisRequestDTO> createThesis(@Valid @RequestBody ThesisRequestDTO thesisRequestDTO) {
+        ThesisRequestDTO createdThesis = this.thesisService.createdThesis(thesisRequestDTO);
+        return ResponseEntity.ok(createdThesis);
     }
 
     @PutMapping(path = "/thesis/{id}")
-    public ResponseEntity<Thesis> UpdateThesis(@PathVariable(value = "id") Integer id, @Valid @RequestBody Thesis thesis){
-        if(thesis == null){
-            return ResponseEntity.notFound().build();
-        }
-        thesis.setName(thesisRequestDTO.getName());
-        thesis.setActive(thesisRequestDTO.getActive());
+    public ResponseEntity<ThesisRequestDTO> UpdateThesis(@PathVariable(value = "id") Integer id,
+                                              @Valid @RequestBody ThesisUpdatingDTO thesisUpdatingDTO) {
+        ThesisRequestDTO thesis = this.thesisService.updateThesis(id, thesisUpdatingDTO);
+        return ResponseEntity.ok(thesis);
+    }
 
-        Council c = councilRepository.getReferenceById(thesisRequestDTO.getCouncilId());
-        thesis.setCouncilId(c);
-
-        Faculty f = facultyRepository.getReferenceById(thesisRequestDTO.getFacultyId());
-        thesis.setFaculty(f);
-
-        thesisRepository.save(thesis);
-        return ResponseEntity.ok().build();
-
+    @DeleteMapping("/thesis/{id}")
+    public ResponseEntity<String> deleteThesis(@PathVariable(value = "id") Integer id) {
+        this.thesisService.deleteThesis(id);
+        return ResponseEntity.ok("Successfully soft delete user");
     }
 }

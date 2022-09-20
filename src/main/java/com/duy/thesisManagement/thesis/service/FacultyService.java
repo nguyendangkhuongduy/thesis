@@ -12,4 +12,6 @@ public interface FacultyService {
     public void deleteFaculty(Integer id);
 
     Faculty getFacultyById(Integer facultyId);
+
+
 }

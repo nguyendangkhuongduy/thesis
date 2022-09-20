@@ -1,10 +1,18 @@
 package com.duy.thesisManagement.thesis.controller;
 
 
-import com.duy.thesisManagement.thesis.dto.CouncilRequestDTO;
+import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.model.Council;
+import com.duy.thesisManagement.thesis.model.CouncilResponse;
+import com.duy.thesisManagement.thesis.model.UsersResponse;
 import com.duy.thesisManagement.thesis.repository.CouncilRepository;
 import com.duy.thesisManagement.thesis.repository.FacultyRepository;
+import com.duy.thesisManagement.thesis.service.CouncilService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.ErrorMessage;
 import org.springframework.http.HttpStatus;
@@ -17,59 +25,59 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/council")
+@RequestMapping(path = "/academic")
 public class CouncilController {
-    private final CouncilRepository councilRepository;
+    private final CouncilService councilService;
 
-    private final FacultyRepository facultyRepository;
-
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<Council>> listAllCouncil(){
-        List<Council> listCouncil= councilRepository.findAll();
-        if(listCouncil.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<Council>>(listCouncil, HttpStatus.OK);
+    @GetMapping(path = "/council", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(
+            description = "get all councils",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching all councils",
+                            content = @Content(schema = @Schema(implementation = UsersResponse.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error")
+            }
+    )
+    public ResponseEntity<CouncilResponse> getCouncils() {
+        List<CouncilDTO> councils = councilService.getAllCouncils();
+        CouncilResponse response = new CouncilResponse();
+        response.setCouncils(councils);
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping()
-    public ResponseEntity<?> createdCouncil(@Valid @RequestBody CouncilRequestDTO councilRequestDTO){
-//        if(councilRepository.existsByCouncilname(councilRequestDTO.getName())){
-//            return ResponseEntity.badRequest().body("Error: Council have been created!");
-//        }
-        Council council = Council.builder().name(councilRequestDTO.getName()).build();
-
-//        Faculty f = facultyRepository.findById(councilRequestDTO.getFaculty_id()).get();
-//        Integer fid =f.getId();
-
-//        council.setFacultyId(Integer.parseInt(fid));
-
-        councilRepository.save(council);
-        return ResponseEntity.ok(new ErrorMessage("User registered successfully!"));
+    @GetMapping(path = "/council/{id}" ,produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(
+            description = "get dedicated council by id",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching council by id",
+                            content = @Content(schema = @Schema(implementation = UserDTO.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error"),
+                    @ApiResponse(responseCode = "404", description = "Cannot find any council")
+            }
+    )
+    public ResponseEntity<Council> getCouncil(@PathVariable(value = "id") Integer id) {
+        Council council = councilService.getCouncilById(id);
+        return ResponseEntity.ok(council);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Council> UpdateCouncil(@PathVariable(value = "id") Integer id, @Valid @RequestBody CouncilRequestDTO councilRequestDTO){
-        Council council = councilRepository.getOne(id);
-        if(council == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        council.setName(councilRequestDTO.getName());
-//        council.setFacultyId(councilRequestDTO.getFaculty_id());
-        council.setActive(councilRequestDTO.getActive());
-        councilRepository.save(council);
-        return ResponseEntity.ok().build();
+    @PostMapping(path = "/council")
+    public ResponseEntity<CouncilDTO> createCouncil(@Valid @RequestBody CouncilCreationDTO councilCreationDTO) {
+        CouncilDTO createdCouncil = this.councilService.createCouncil(councilCreationDTO);
+        return ResponseEntity.ok(createdCouncil);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Council> DeleteCouncil(@PathVariable(value = "id") Integer id) {
-        Council council = councilRepository.getOne(id);
-        if(council == null) {
-            return ResponseEntity.notFound().build();
-        }
-        councilRepository.delete(council);
-        return ResponseEntity.ok().build();
+    @PutMapping("/council/{id}")
+    public ResponseEntity<CouncilDTO> UpdateCouncil(@PathVariable(value = "id") Integer id,
+                                              @Valid @RequestBody CouncilUpdatingDTO councilUpdatingDTO) {
+        CouncilDTO council = this.councilService.updateCouncil(id, councilUpdatingDTO);
+        return ResponseEntity.ok(council);
     }
 
+    @DeleteMapping("/council/{id}")
+    public ResponseEntity<String> deleteCouncil(@PathVariable(value = "id") Integer id) {
+        this.councilService.deleteCouncil(id);
+        return ResponseEntity.ok("Successfully soft delete user");
     }
+}

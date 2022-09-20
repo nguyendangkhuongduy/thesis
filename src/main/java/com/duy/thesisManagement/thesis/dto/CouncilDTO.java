@@ -2,7 +2,6 @@ package com.duy.thesisManagement.thesis.dto;
 
 import lombok.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 
 @Getter
@@ -10,12 +9,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ThesisRequestDTO {
+public class CouncilDTO {
     private Integer id;
-    private String name;
-    private Integer councilId;
-    private Integer facultyId;
     private Boolean active;
     private Date createdDate;
-    private float totalScore;
+    private String name;
+    private Integer facultyId;
 }

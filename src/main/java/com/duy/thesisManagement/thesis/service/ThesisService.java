@@ -1,16 +1,20 @@
 package com.duy.thesisManagement.thesis.service;
 
+import com.duy.thesisManagement.thesis.dto.ThesisRequestDTO;
+import com.duy.thesisManagement.thesis.dto.ThesisUpdatingDTO;
 import com.duy.thesisManagement.thesis.model.Thesis;
 import java.util.List;
 
 public interface ThesisService {
-    public List<Thesis> getTheses();
+    public List<ThesisRequestDTO> getTheses();
 
-    public Thesis createdThesis(Thesis thesis);
+    public ThesisRequestDTO createdThesis(ThesisRequestDTO thesisRequestDTO);
 
-    public Thesis getThesisById(int id);
+    public ThesisRequestDTO getThesisById(int id);
 
     public void deleteThesis(Integer id);
+
+    ThesisRequestDTO updateThesis(Integer id, ThesisUpdatingDTO thesisUpdatingDTO);
 
 
 

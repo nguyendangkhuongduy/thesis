@@ -92,6 +92,7 @@ public class CouncilServiceImpl implements CouncilService{
 
     private CouncilDTO toCouncilDTO(Council council) {
         CouncilDTO councilDTO = CouncilDTO.builder()
+                .id(council.getId())
                 .active(council.isActive())
                 .createdDate(council.getCreatedDate())
                 .facultyId(council.getFaculty().getId())

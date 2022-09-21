@@ -48,7 +48,16 @@ public class UserServiceImpl implements UserService {
 				throw new ResourceNotFoundException("Cannot find any user with id: " + id);
 		}
 
-		@Override
+	@Override
+	public User getUserByID(Integer id) {
+		Optional<User> user = this.userRepository.findById(id);
+		if (user.isPresent()) {
+			return user.get();
+		}
+		throw new ResourceNotFoundException("Cannot find any user with id: " + id);
+	}
+
+	@Override
 		public UserDTO createUser(UserCreationDTO userCreationDTO) {
 				this.validateNewUser(userCreationDTO);
 				User user = this.toUser(userCreationDTO);

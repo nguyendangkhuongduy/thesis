@@ -15,7 +15,7 @@ public class ThesisRequestDTO {
     private String name;
     private Integer councilId;
     private Integer facultyId;
-    private Boolean active;
+    private boolean active;
     private Date createdDate;
     private float totalScore;
 }

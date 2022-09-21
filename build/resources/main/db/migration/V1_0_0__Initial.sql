@@ -351,8 +351,39 @@ UNLOCK TABLES;
 -- initial data insert into db by default
 
 INSERT INTO roles (id, name) VALUES (1, "ROLE_ADMIN");
+INSERT INTO roles (id, name) VALUES (2, "ROLE_MANAGER");
+INSERT INTO roles (id, name) VALUES (3, "ROLE_ASSOCIATE");
+
+INSERT INTO faculty (id, name) VALUES (1, "CNTT");
+INSERT INTO faculty (id, name) VALUES (2, "Kế Toán");
+INSERT INTO faculty (id, name) VALUES (3, "Nam Á");
+
+
+INSERT INTO council (id, active, created_date, name, faculty_id)
+VALUES (1, true, "2022-02-01", "khanhtran", "1");
+INSERT INTO council (id, active, created_date, name, faculty_id)
+VALUES (2, true, "2022-02-01", "khanhtran1", "2");
+INSERT INTO council (id, active, created_date, name, faculty_id)
+VALUES (3, true, "2022-02-01", "khanhtran2", "3");
+
 
 INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date)
 VALUES (1, "admin", "khanh.tran@test.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh", "03333333", "male", "2022-02-01");
 
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (2, "manager", "khanh.tran@test1.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh1", "0333333311", "male", "2022-02-01", "1");
+
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (3, "associate", "khanh.tran@test2.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh2", "033333331122", "male", "2022-02-01", "2");
+
 INSERT INTO user_roles (user_id, roles_id) VALUES (1,1);
+INSERT INTO user_roles (user_id, roles_id) VALUES (2,2);
+INSERT INTO user_roles (user_id, roles_id) VALUES (3,3);
+
+INSERT INTO thesis (id, active, created_date, name, total_score, council_id, faculty_id)
+VALUES (1, true, "2022-02-01", "duy", "9", "1", "1");
+INSERT INTO thesis (id, active, created_date, name, total_score, council_id, faculty_id)
+VALUES (2, true, "2022-02-01", "duy1", "9", "2", "2");
+INSERT INTO thesis (id, active, created_date, name, total_score, council_id, faculty_id)
+VALUES (3, true, "2022-02-01", "duy2", "9", "3", "3");
+

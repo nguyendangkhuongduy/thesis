@@ -6,13 +6,15 @@ import com.duy.thesisManagement.thesis.model.Thesis;
 import java.util.List;
 
 public interface ThesisService {
-    public List<ThesisRequestDTO> getTheses();
+    List<ThesisRequestDTO> getTheses();
 
-    public ThesisRequestDTO createdThesis(ThesisRequestDTO thesisRequestDTO);
+    ThesisRequestDTO createdThesis(ThesisRequestDTO thesisRequestDTO);
 
-    public ThesisRequestDTO getThesisById(int id);
+    ThesisRequestDTO getThesisById(int id);
 
-    public void deleteThesis(Integer id);
+    Thesis getThesisByID(int id);
+
+    void deleteThesis(Integer id);
 
     ThesisRequestDTO updateThesis(Integer id, ThesisUpdatingDTO thesisUpdatingDTO);
 

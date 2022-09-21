@@ -3,6 +3,8 @@ package com.duy.thesisManagement.thesis.service;
 import com.duy.thesisManagement.thesis.dto.UserCreationDTO;
 import com.duy.thesisManagement.thesis.dto.UserDTO;
 import com.duy.thesisManagement.thesis.dto.UserUpdatingDTO;
+import com.duy.thesisManagement.thesis.model.User;
+
 import java.util.List;
 
 public interface UserService {
@@ -10,6 +12,8 @@ public interface UserService {
 		List<UserDTO> getAllUsers();
 
 		UserDTO getUserById(Integer id);
+
+		User getUserByID(Integer id);
 
 		UserDTO createUser(UserCreationDTO userCreationDTO);
 

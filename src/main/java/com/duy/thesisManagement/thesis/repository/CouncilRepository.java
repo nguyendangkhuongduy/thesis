@@ -6,10 +6,13 @@ import com.duy.thesisManagement.thesis.model.Council;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CouncilRepository extends JpaRepository<Council, Integer> {
 
     boolean existsByName(String name);
+    boolean findCouncilById(Integer id);
 
     boolean findByName(String name);
 

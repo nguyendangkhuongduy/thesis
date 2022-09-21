@@ -52,6 +52,14 @@ public class ThesisServiceImpl implements ThesisService {
         throw new ResourceNotFoundException("Cannot find any thesis with id: " + id);
     }
 
+    @Override
+    public Thesis getThesisByID(int id) {
+        Optional<Thesis> thesis = thesisRepository.findById(id);
+        if (thesis.isPresent()) {
+            return thesis.get();
+        }
+        throw new ResourceNotFoundException("Cannot find any thesis with id: " + id);
+    }
 
 
     @Override
@@ -96,6 +104,7 @@ public class ThesisServiceImpl implements ThesisService {
         ThesisRequestDTO thesisDTO = ThesisRequestDTO.builder()
                 .id(thesis.getId())
                 .name(thesis.getName())
+                .active(thesis.isActive())
                 .createdDate(thesis.getCreatedDate())
                 .totalScore(thesis.getTotalScore())
                 .facultyId(thesis.getFaculty().getId())
@@ -118,7 +127,7 @@ public class ThesisServiceImpl implements ThesisService {
                 .faculty(faculty)
                 .councilId(council)
                 .totalScore(thesisRequestDTO.getTotalScore())
-                .active(thesisRequestDTO.getActive())
+                .active(thesisRequestDTO.isActive())
                 .build();
         return thesis;
     }

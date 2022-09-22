@@ -57,9 +57,9 @@ public class CouncilController {
                     @ApiResponse(responseCode = "404", description = "Cannot find any council")
             }
     )
-    public ResponseEntity<Council> getCouncil(@PathVariable(value = "id") Integer id) {
-        Council council = councilService.getCouncilById(id);
-        return ResponseEntity.ok(council);
+    public ResponseEntity<CouncilDTO> getCouncil(@PathVariable(value = "id") Integer id) {
+        CouncilDTO councilDTO = councilService.getCouncilById(id);
+        return ResponseEntity.ok(councilDTO);
     }
 
     @PostMapping(path = "/council")

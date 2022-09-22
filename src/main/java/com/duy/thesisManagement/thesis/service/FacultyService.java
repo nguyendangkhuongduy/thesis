@@ -1,17 +1,19 @@
 package com.duy.thesisManagement.thesis.service;
 
+import com.duy.thesisManagement.thesis.dto.FacultyRequestDTO;
+import com.duy.thesisManagement.thesis.dto.FacultyUpdatingDTO;
 import com.duy.thesisManagement.thesis.model.Faculty;
 
 import java.util.List;
 
 public interface FacultyService {
-    public List<Faculty> getAllFaculties();
+    List<FacultyRequestDTO> getAllFaculties();
 
-    public Faculty createdFaculty(Faculty faculty);
+    FacultyRequestDTO createdFaculty(FacultyUpdatingDTO facultyUpdatingDTO);
 
-    public void deleteFaculty(Integer id);
+    void deleteFaculty(Integer id);
 
-    Faculty getFacultyById(Integer facultyId);
+    Faculty getFacultyById(Integer id);
 
 
 }

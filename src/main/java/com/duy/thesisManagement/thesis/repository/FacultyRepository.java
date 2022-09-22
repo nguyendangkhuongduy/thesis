@@ -7,4 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface FacultyRepository  extends JpaRepository<Faculty, Integer> {
+    Boolean existsByName(String name);
 }

@@ -82,6 +82,6 @@ public class ThesisController {
     @DeleteMapping("/thesis/{id}")
     public ResponseEntity<String> deleteThesis(@PathVariable(value = "id") Integer id) {
         this.thesisService.deleteThesis(id);
-        return ResponseEntity.ok("Successfully soft delete user");
+        return ResponseEntity.ok("Successfully soft delete thesis");
     }
 }

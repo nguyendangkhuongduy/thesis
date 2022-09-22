@@ -1,12 +1,15 @@
 package com.duy.thesisManagement.thesis.controller;
 
 
-import com.duy.thesisManagement.thesis.dto.FacultyRequestDTO;
-import com.duy.thesisManagement.thesis.dto.PositionRequestDTO;
-import com.duy.thesisManagement.thesis.model.Faculty;
-import com.duy.thesisManagement.thesis.model.Position;
-import com.duy.thesisManagement.thesis.model.Role;
+import com.duy.thesisManagement.thesis.dto.*;
+import com.duy.thesisManagement.thesis.model.*;
 import com.duy.thesisManagement.thesis.repository.PositionRepository;
+import com.duy.thesisManagement.thesis.service.PositionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,31 +26,36 @@ import java.util.Set;
 @RequestMapping(path = "/position")
 public class PositionController {
 
-    private final PositionRepository positionRepository;
+    private final PositionService positionService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<Position>> listAllPosition(){
-        List<Position> listPosition= positionRepository.findAll();
-        if(listPosition.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<Position>>(listPosition, HttpStatus.OK);
+    @Operation(
+            description = "get all position",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching all position",
+                            content = @Content(schema = @Schema(implementation = UsersResponse.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error")
+            }
+    )
+    public ResponseEntity<PositonResponse> getPosition() {
+        List<PositionDTO> position = positionService.getAllPosition();
+        PositonResponse response = new PositonResponse();
+        response.setPosition(position);
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping()
-    public ResponseEntity<?> createdFaculty(@Valid @RequestBody PositionRequestDTO positionRequestDTO){
-
-//        Position position = Position.builder().name(positionRequestDTO.getName()).build();
-
-        Set<String> councilRoles = positionRequestDTO.getName();
-//        Set<> roles = new HashSet<>();
-//
-//
-//
-//        facultyRepository.save(faculty);
-        return ResponseEntity.status(HttpStatus.CREATED.value()).build();
+    @PostMapping
+    public ResponseEntity<PositionDTO> createPosition(@Valid @RequestBody PositionCreationDTO positionCreationDTO) {
+        PositionDTO createdPosition = this.positionService.createPosition(positionCreationDTO);
+        return ResponseEntity.ok(createdPosition);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePosition(@PathVariable(value = "id") Integer id) {
+        this.positionService.deletePosition(id);
+        return ResponseEntity.ok("Successfully delete Position");
+    }
 
 
 

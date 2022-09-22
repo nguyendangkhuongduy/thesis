@@ -44,7 +44,16 @@ public class CouncilServiceImpl implements CouncilService{
     }
 
     @Override
-    public Council getCouncilById(Integer id) {
+    public CouncilDTO getCouncilById(Integer id) {
+        Optional<Council> council = this.councilRepository.findById(id);
+        if (council.isPresent()) {
+            return this.toCouncilDTO(council.get());
+        }
+        throw new ResourceNotFoundException("Cannot find any council with id: " + id);
+    }
+
+    @Override
+    public Council getCouncilByID(Integer id) {
         Optional<Council> council = this.councilRepository.findById(id);
         if (council.isPresent()) {
             return council.get();

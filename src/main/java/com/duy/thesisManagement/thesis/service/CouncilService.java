@@ -11,7 +11,9 @@ public interface CouncilService {
 
     CouncilDTO getCouncilByName(String name);
 
-    Council getCouncilById(Integer id);
+    CouncilDTO getCouncilById(Integer id);
+
+    Council getCouncilByID(Integer id);
 
     CouncilDTO createCouncil(CouncilCreationDTO councilCreationDTO);
 

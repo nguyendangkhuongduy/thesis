@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Data
@@ -19,9 +20,10 @@ public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private AppCouncilRole name;
+
+    @NotBlank
+    @Column(length = 255)
+    private String name;
 
     @OneToMany(mappedBy = "positionId")
     private Set<CouncilPosition> councilPositionSet;

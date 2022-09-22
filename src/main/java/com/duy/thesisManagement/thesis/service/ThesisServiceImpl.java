@@ -82,7 +82,7 @@ public class ThesisServiceImpl implements ThesisService {
             faculty = this.facultyService.getFacultyById(thesisUpdatingDTO.getFacultyId());
         }
         if (Objects.nonNull(thesisUpdatingDTO.getCouncilId())) {
-            council = this.councilService.getCouncilById(thesisUpdatingDTO.getCouncilId());
+            council = this.councilService.getCouncilByID(thesisUpdatingDTO.getCouncilId());
         }
         if (foundThesis.isPresent()) {
             Thesis updatingThesis = foundThesis.get();
@@ -119,7 +119,7 @@ public class ThesisServiceImpl implements ThesisService {
             faculty = this.facultyService.getFacultyById(thesisRequestDTO.getFacultyId());
         }
         if (Objects.nonNull(thesisRequestDTO.getCouncilId())) {
-            council = this.councilService.getCouncilById(thesisRequestDTO.getCouncilId());
+            council = this.councilService.getCouncilByID(thesisRequestDTO.getCouncilId());
         }
         Thesis thesis = Thesis.builder()
                 .name(thesisRequestDTO.getName())

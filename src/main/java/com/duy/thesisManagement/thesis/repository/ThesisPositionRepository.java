@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ThesisPositionRepository extends JpaRepository<ThesisPosition, Integer> {
     ThesisPosition findByUserId(Integer id);
 
-    ThesisPositionDTO existsByUsrId(Integer id);
+    ThesisPositionDTO existsByUserId(Integer id);
 }

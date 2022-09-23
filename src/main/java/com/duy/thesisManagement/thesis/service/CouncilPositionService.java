@@ -1,13 +1,19 @@
 package com.duy.thesisManagement.thesis.service;
 
+import com.duy.thesisManagement.thesis.dto.CouncilPositionCreationDTO;
+import com.duy.thesisManagement.thesis.dto.CouncilPositionRequestDTO;
+import com.duy.thesisManagement.thesis.dto.CouncilPositionUpdatingDTO;
+import com.duy.thesisManagement.thesis.dto.UserDTO;
 import com.duy.thesisManagement.thesis.model.CouncilPosition;
 
+import java.util.List;
+
 public interface CouncilPositionService {
-    CouncilPosition getCouncilPositionByCouncilId(Integer id);
+    List<CouncilPositionRequestDTO> getAllCouncilPosition();
+    List<CouncilPositionRequestDTO> getCouncilPositionByCouncilId(Integer id);
 
-    CouncilPosition createdCouncilPosition(CouncilPosition councilPosition);
+    CouncilPositionRequestDTO createdCouncilPosition(CouncilPositionCreationDTO councilPositionCreationDTO);
 
-//    CouncilPosition updateCouncilPosition(CouncilPosition councilPosition);
+    CouncilPositionRequestDTO updatedCouncilPosition(CouncilPositionUpdatingDTO councilPositionUpdatingDTO);
 
-    void deleteCouncilPosition(Integer id);
 }

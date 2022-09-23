@@ -23,4 +23,5 @@ public class UserDTO {
 		private String gender;
 		private Date createdDate;
 		private Set<String> roles;
+		private String faculty;
 }

@@ -33,7 +33,7 @@ public class PositionServiceImpl implements PositionService{
 
     @Override
     public PositionDTO createPosition(PositionCreationDTO positionCreationDTO) {
-        this.validateNewPosition(positionCreationDTO);
+//        this.validateNewPosition(positionCreationDTO);
         Position position = this.toPosition(positionCreationDTO);
         Position saved = this.positionRepository.save(position);
         return toPositionDTO(saved);
@@ -50,6 +50,24 @@ public class PositionServiceImpl implements PositionService{
         throw new ResourceNotFoundException("Cannot find any Position for deleting action with id: " + id);
     }
 
+    @Override
+    public PositionDTO getPositionById(Integer id) {
+        Optional<Position> position = this.positionRepository.findById(id);
+        if (position.isPresent()) {
+            return this.toPositionDTO(position.get());
+        }
+        throw new ResourceNotFoundException("Cannot find any position with id: " + id);
+    }
+
+    @Override
+    public Position getPositionByID(Integer id) {
+        Optional<Position> position = this.positionRepository.findById(id);
+        if (position.isPresent()) {
+            return position.get();
+        }
+        throw new ResourceNotFoundException("Cannot find any position with id: " + id);
+    }
+
     private PositionDTO toPositionDTO(Position position) {
         PositionDTO positionDTO = PositionDTO.builder()
                 .id(position.getId())
@@ -58,17 +76,17 @@ public class PositionServiceImpl implements PositionService{
         return positionDTO;
     }
 
-    private void validateNewPosition(PositionCreationDTO positionDTO) {
-        boolean nameExisted = this.positionRepository.existsByName(positionDTO.getName());
-        StringBuilder errorMessageBuilder = new StringBuilder();
-        if (nameExisted) {
-            errorMessageBuilder.append("Cannot create position: name already existed");
-        }
-        String errorMessage = errorMessageBuilder.toString();
-        if (StringUtils.isNotBlank(errorMessage)) {
-            throw new BadRequestException(errorMessage);
-        }
-    }
+//    private void validateNewPosition(PositionCreationDTO positionDTO) {
+//        boolean nameExisted = this.positionRepository.existsByName(positionDTO.getName());
+//        StringBuilder errorMessageBuilder = new StringBuilder();
+//        if (nameExisted) {
+//            errorMessageBuilder.append("Cannot create position: name already existed");
+//        }
+//        String errorMessage = errorMessageBuilder.toString();
+//        if (StringUtils.isNotBlank(errorMessage)) {
+//            throw new BadRequestException(errorMessage);
+//        }
+//    }
 
     private Position toPosition(PositionCreationDTO positionCreationDTO) {
         Position position = Position.builder()

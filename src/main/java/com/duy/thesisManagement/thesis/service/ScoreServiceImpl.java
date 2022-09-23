@@ -44,11 +44,11 @@ public class ScoreServiceImpl implements ScoreService{
             thesis = this.thesisService.getThesisByID(scoreDTO.getThesisId());
         }
 
-        if (Objects.nonNull(scoreDTO.getCouncilPositionId())) {
-            councilPosition = this.councilPositionService.getCouncilPositionByCouncilId(scoreDTO.getThesisId());
-        }
+//        if (Objects.nonNull(scoreDTO.getCouncilPositionId())) {
+//            councilPosition = this.councilPositionService.getCouncilPositionByCouncilID(scoreDTO.getThesisId());
+//        }
         Score score = Score.builder()
-                .councilPositionId(councilPosition)
+//                .councilPositionId(councilPosition)
                 .thesisId(thesis)
                 .build();
         return score;

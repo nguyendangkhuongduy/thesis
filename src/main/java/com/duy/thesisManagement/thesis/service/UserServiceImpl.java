@@ -143,7 +143,9 @@ public class UserServiceImpl implements UserService {
 						.gender(user.getGender())
 						.phone(user.getPhone())
 						.roles(user.getRoles().stream().map(Role::getName).map(AppRole::getName).collect(Collectors.toSet()))
-						.email(user.getEmail()).build();
+						.email(user.getEmail())
+						.faculty(user.getFaculty().getName())
+						.build();
 				return userDTO;
 		}
 

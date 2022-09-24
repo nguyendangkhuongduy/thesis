@@ -354,17 +354,17 @@ INSERT INTO roles (id, name) VALUES (1, "ROLE_ADMIN");
 INSERT INTO roles (id, name) VALUES (2, "ROLE_MANAGER");
 INSERT INTO roles (id, name) VALUES (3, "ROLE_ASSOCIATE");
 
-INSERT INTO faculty (id, name) VALUES (1, "CNTT");
-INSERT INTO faculty (id, name) VALUES (2, "Kế Toán");
-INSERT INTO faculty (id, name) VALUES (3, "Nam Á");
+INSERT INTO faculty (id, name) VALUES (1, "Information Technology");
+INSERT INTO faculty (id, name) VALUES (2, "economics");
+INSERT INTO faculty (id, name) VALUES (3, "manufacturing engineering");
 
 
 INSERT INTO council (id, active, created_date, name, faculty_id)
-VALUES (1, true, "2022-02-01", "khanhtran", "1");
+VALUES (1, true, "2022-02-01", "HD1", "1");
 INSERT INTO council (id, active, created_date, name, faculty_id)
-VALUES (2, true, "2022-02-01", "khanhtran1", "2");
+VALUES (2, true, "2022-02-01", "HD2", "2");
 INSERT INTO council (id, active, created_date, name, faculty_id)
-VALUES (3, true, "2022-02-01", "khanhtran2", "3");
+VALUES (3, true, "2022-02-01", "HD3", "3");
 
 
 INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date)
@@ -381,9 +381,9 @@ INSERT INTO user_roles (user_id, roles_id) VALUES (2,2);
 INSERT INTO user_roles (user_id, roles_id) VALUES (3,3);
 
 INSERT INTO thesis (id, active, created_date, name, total_score, council_id, faculty_id)
-VALUES (1, true, "2022-02-01", "duy", "9", "1", "1");
+VALUES (1, true, "2022-02-01", "thesis 1", "9", "1", "1");
 INSERT INTO thesis (id, active, created_date, name, total_score, council_id, faculty_id)
-VALUES (2, true, "2022-02-01", "duy1", "9", "2", "2");
+VALUES (2, true, "2022-02-01", "thesis 2", "9", "2", "2");
 INSERT INTO thesis (id, active, created_date, name, total_score, council_id, faculty_id)
-VALUES (3, true, "2022-02-01", "duy2", "9", "3", "3");
+VALUES (3, true, "2022-02-01", "thesis 3", "9", "3", "3");
 

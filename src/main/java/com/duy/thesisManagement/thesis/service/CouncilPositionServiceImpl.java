@@ -1,7 +1,7 @@
 package com.duy.thesisManagement.thesis.service;
 
 import com.duy.thesisManagement.thesis.dto.CouncilPositionCreationDTO;
-import com.duy.thesisManagement.thesis.dto.CouncilPositionRequestDTO;
+import com.duy.thesisManagement.thesis.dto.CouncilPositionDTO;
 import com.duy.thesisManagement.thesis.dto.CouncilPositionUpdatingDTO;
 import com.duy.thesisManagement.thesis.exception.BadRequestException;
 import com.duy.thesisManagement.thesis.model.Council;
@@ -27,41 +27,61 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
 
 
     @Override
-    public List<CouncilPositionRequestDTO> getAllCouncilPosition() {
+    public List<CouncilPositionDTO> getAllCouncilPosition() {
         List<CouncilPosition>  councilPositions = councilPositionRepository.findAll();
-        List<CouncilPositionRequestDTO> result = councilPositions.stream()
-                .map(this::toCouncilPositionRequestDTO1).collect(Collectors.toList());
+        List<CouncilPositionDTO> result = councilPositions.stream()
+                .map(this::toCouncilPositionDTO).collect(Collectors.toList());
         return result;
     }
 
     // FIXME not done, need further action here
     @Override
-    public List<CouncilPositionRequestDTO> getCouncilPositionByCouncilId(Integer id) {
+    public List<CouncilPositionDTO> getCouncilPositionByCouncilId(Integer id) {
         List<CouncilPosition> cp =  this.councilPositionRepository.findByCouncilId(id);
 //        return this.toCouncilPositionRequestDTO((CouncilPosition) cp);
         return Collections.EMPTY_LIST;
     }
 
     @Override
-    public CouncilPositionRequestDTO createdCouncilPosition(CouncilPositionCreationDTO councilPositionCreationDTO) {
-        CouncilPosition councilPosition = this.toCpDTO(councilPositionCreationDTO);
+    public CouncilPositionDTO createdCouncilPosition(CouncilPositionCreationDTO councilPositionCreationDTO) {
+        if (Objects.isNull(councilPositionCreationDTO.getCouncilId())
+            || Objects.isNull(councilPositionCreationDTO.getPositionId())
+            || Objects.isNull(councilPositionCreationDTO.getUserId())) {
+            throw new BadRequestException(
+                "Cannot create councilPosition because missing data, current request object: " + councilPositionCreationDTO);
+        }
+        Council council = this.councilCoreService.getCouncilByID(councilPositionCreationDTO.getCouncilId());
+        Position position = this.positionService.getPositionByID(councilPositionCreationDTO.getPositionId());
+        User user = userService.getUserByID(councilPositionCreationDTO.getUserId());
+
+        CouncilPosition councilPosition = CouncilPosition.builder()
+            .councilId(council)
+            .positionId(position)
+            .userId(user)
+            .build();
         CouncilPosition saved = this.councilPositionRepository.save(councilPosition);
-        return this.toCouncilPositionRequestDTO(saved);
+        return this.toCouncilPositionDTO(saved);
     }
 
     @Override
-    public CouncilPositionRequestDTO updatedCouncilPosition(CouncilPositionUpdatingDTO councilPositionUpdatingDTO) {
-//            updatingUser.setEmail(userUpdatingDTO.getEmail());
-//            updatingUser.setFullName(userUpdatingDTO.getFullName());
-//            updatingUser.setGender(userUpdatingDTO.getGender());
-//            updatingUser.setPhone(userUpdatingDTO.getPhone());
-//
-//            Set<Role> roles = this.getExistingRoles(userUpdatingDTO.getRoles());
-//            updatingUser.setRoles(roles);
-//
-//            User savedUser = this.userRepository.save(updatingUser);
-//            return this.toUserDTO(savedUser);
-        return null;
+    public CouncilPositionDTO updatedCouncilPosition(Integer id, CouncilPositionUpdatingDTO councilPositionUpdatingDTO) {
+        Optional<CouncilPosition> councilPositionOpt = this.councilPositionRepository.findById(id);
+        if (councilPositionOpt.isPresent()) {
+            if (Objects.isNull(councilPositionUpdatingDTO.getPositionId())
+                || Objects.isNull(councilPositionUpdatingDTO.getUserId())) {
+                throw new BadRequestException("Cannot update councilPosition because missing data, request object: "
+                    + councilPositionUpdatingDTO);
+            }
+
+            CouncilPosition councilPosition= councilPositionOpt.get();
+            Position position = this.positionService.getPositionByID(councilPositionUpdatingDTO.getPositionId());
+            User user = this.userService.getUserByID(councilPositionUpdatingDTO.getUserId());
+            councilPosition.setPositionId(position);
+            councilPosition.setUserId(user);
+            CouncilPosition saved = councilPositionRepository.save(councilPosition);
+            return this.toCouncilPositionDTO(saved);
+        }
+        throw new BadRequestException("Cannot find CouncilPosition for update action with id: " + id);
     }
 
     @Override
@@ -89,39 +109,8 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
         return result;
     }
 
-    public CouncilPosition toCpDTO(CouncilPositionCreationDTO councilPositionCreationDTO) {
-        Council council = null;
-        Position position = null;
-        User user = null;
-        if (Objects.nonNull(councilPositionCreationDTO.getCouncilId())) {
-            council = this.councilCoreService.getCouncilByID(councilPositionCreationDTO.getCouncilId());
-        }
-        if (Objects.nonNull(councilPositionCreationDTO.getPositionId())) {
-            position = this.positionService.getPositionByID(councilPositionCreationDTO.getPositionId());
-        }
-        if (Objects.nonNull(councilPositionCreationDTO.getUserId())) {
-            user = userService.getUserByID(councilPositionCreationDTO.getUserId());
-        }
-        CouncilPosition councilPosition = CouncilPosition.builder()
-                .councilId(council)
-                .positionId(position)
-                .userId(user)
-                .build();
-        return councilPosition;
-    }
-
-    private CouncilPositionRequestDTO toCouncilPositionRequestDTO(CouncilPosition councilPosition) {
-        CouncilPositionRequestDTO positionRequestDTO = CouncilPositionRequestDTO.builder()
-                .id(councilPosition.getId())
-                .userId(councilPosition.getUserId().getId())
-                .positionId(councilPosition.getPositionId().getId())
-                .councilId(councilPosition.getCouncilId().getId())
-                .build();
-        return positionRequestDTO;
-    }
-
-    private CouncilPositionRequestDTO toCouncilPositionRequestDTO1(CouncilPosition councilPosition) {
-        CouncilPositionRequestDTO positionRequestDTO = CouncilPositionRequestDTO.builder()
+    private CouncilPositionDTO toCouncilPositionDTO(CouncilPosition councilPosition) {
+        CouncilPositionDTO positionRequestDTO = CouncilPositionDTO.builder()
                 .id(councilPosition.getId())
                 .userId(councilPosition.getUserId().getId())
                 .positionId(councilPosition.getPositionId().getId())

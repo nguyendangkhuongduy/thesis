@@ -4,15 +4,19 @@ package com.duy.thesisManagement.thesis.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "council_position")
 public class CouncilPosition {
@@ -20,9 +24,11 @@ public class CouncilPosition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ToString.Exclude
     @JoinColumn(name = "council_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Council councilId;
+
     @JoinColumn(name = "position_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Position positionId;

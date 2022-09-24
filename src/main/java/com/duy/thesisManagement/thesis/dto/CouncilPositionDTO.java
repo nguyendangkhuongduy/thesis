@@ -3,14 +3,12 @@ package com.duy.thesisManagement.thesis.dto;
 
 import lombok.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CouncilPositionRequestDTO {
+public class CouncilPositionDTO {
     private Integer id;
     private Integer councilId;
     private Integer positionId;

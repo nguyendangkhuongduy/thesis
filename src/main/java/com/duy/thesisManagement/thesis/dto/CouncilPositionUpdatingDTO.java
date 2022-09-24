@@ -8,8 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class CouncilPositionUpdatingDTO {
     private Integer userId;
-    private Integer facultyId;
-    private Integer councilId;
+    private Integer positionId;
 }

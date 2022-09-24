@@ -2,7 +2,6 @@ package com.duy.thesisManagement.thesis.controller;
 
 import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.model.CouncilPositionResponse;
-import com.duy.thesisManagement.thesis.model.UsersResponse;
 import com.duy.thesisManagement.thesis.service.CouncilPositionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,7 +34,7 @@ public class CouncilPositionController {
             }
     )
     public ResponseEntity<CouncilPositionResponse> getCouncilPosition() {
-        List<CouncilPositionRequestDTO> councilPosition = councilPositionService.getAllCouncilPosition();
+        List<CouncilPositionDTO> councilPosition = councilPositionService.getAllCouncilPosition();
         CouncilPositionResponse response = new CouncilPositionResponse();
         response.setCouncilPosition(councilPosition);
         return ResponseEntity.ok(response);
@@ -46,26 +45,26 @@ public class CouncilPositionController {
             security = @SecurityRequirement(name = "Bearer Authentication"),
             responses = {
                     @ApiResponse(responseCode = "200", description = "Success fetching council position by council id",
-                            content = @Content(schema = @Schema(implementation = CouncilPositionRequestDTO.class))),
+                            content = @Content(schema = @Schema(implementation = CouncilPositionDTO.class))),
                     @ApiResponse(responseCode = "401", description = "Authentication error"),
                     @ApiResponse(responseCode = "404", description = "Cannot find any user")
             }
     )
-    public ResponseEntity<List<CouncilPositionRequestDTO>> getCouncilPosition(@PathVariable(value = "councilId") Integer councilId) {
-        List<CouncilPositionRequestDTO> councilPosition = councilPositionService.getCouncilPositionByCouncilId(councilId);
+    public ResponseEntity<List<CouncilPositionDTO>> getCouncilPosition(@PathVariable(value = "councilId") Integer councilId) {
+        List<CouncilPositionDTO> councilPosition = councilPositionService.getCouncilPositionByCouncilId(councilId);
         return ResponseEntity.ok(councilPosition);
     }
 
     @PostMapping(path = "/councilPosition")
-    public ResponseEntity<CouncilPositionRequestDTO> createCouncilPosition(@Valid @RequestBody CouncilPositionCreationDTO councilPositionCreationDTO) {
-        CouncilPositionRequestDTO createdCouncilPosition = this.councilPositionService.createdCouncilPosition(councilPositionCreationDTO);
+    public ResponseEntity<CouncilPositionDTO> createCouncilPosition(@Valid @RequestBody CouncilPositionCreationDTO councilPositionCreationDTO) {
+        CouncilPositionDTO createdCouncilPosition = this.councilPositionService.createdCouncilPosition(councilPositionCreationDTO);
         return ResponseEntity.ok(createdCouncilPosition);
     }
 
     @PutMapping("/councilPosition/{id}")
-    public ResponseEntity<CouncilPositionRequestDTO> UpdateCouncilPosition(@PathVariable(value = "id") Integer id,
+    public ResponseEntity<CouncilPositionDTO> UpdateCouncilPosition(@PathVariable(value = "id") Integer id,
                                               @Valid @RequestBody CouncilPositionUpdatingDTO councilPositionUpdatingDTO) {
-        CouncilPositionRequestDTO councilPosition = this.councilPositionService.updatedCouncilPosition(councilPositionUpdatingDTO);
+        CouncilPositionDTO councilPosition = this.councilPositionService.updatedCouncilPosition(id, councilPositionUpdatingDTO);
         return ResponseEntity.ok(councilPosition);
     }
 }

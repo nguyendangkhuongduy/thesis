@@ -30,7 +30,8 @@ public class CouncilService {
         for (CouncilPosition item : councilPositions) {
             item.setCouncilId(council);
         }
-        return this.councilCoreService.toCouncilDTO(councilRepository.save(council));
+        Council saved = councilRepository.save(council);
+        return this.councilCoreService.toCouncilDTO(saved);
     }
 
     public List<CouncilDTO> getAllCouncils() {

@@ -8,7 +8,6 @@ import com.duy.thesisManagement.thesis.repository.ThesisRepository;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class ThesisServiceImpl implements ThesisService {
 
     private final FacultyService facultyService;
 
-    private final CouncilService councilService;
+    private final CouncilCoreService councilCoreService;
 
     @Autowired
     private ThesisRepository thesisRepository;
@@ -69,6 +68,7 @@ public class ThesisServiceImpl implements ThesisService {
             Thesis thesis = deletedThesisOpt.get();
             thesis.setActive(false);
             thesisRepository.save(thesis);
+            return;
         }
         throw new ResourceNotFoundException("Cannot delete thesis because there is no thesis with given id: " + id);
     }
@@ -82,7 +82,7 @@ public class ThesisServiceImpl implements ThesisService {
             faculty = this.facultyService.getFacultyById(thesisUpdatingDTO.getFacultyId());
         }
         if (Objects.nonNull(thesisUpdatingDTO.getCouncilId())) {
-            council = this.councilService.getCouncilByID(thesisUpdatingDTO.getCouncilId());
+            council = this.councilCoreService.getCouncilByID(thesisUpdatingDTO.getCouncilId());
         }
         if (foundThesis.isPresent()) {
             Thesis updatingThesis = foundThesis.get();
@@ -119,7 +119,7 @@ public class ThesisServiceImpl implements ThesisService {
             faculty = this.facultyService.getFacultyById(thesisRequestDTO.getFacultyId());
         }
         if (Objects.nonNull(thesisRequestDTO.getCouncilId())) {
-            council = this.councilService.getCouncilByID(thesisRequestDTO.getCouncilId());
+            council = this.councilCoreService.getCouncilByID(thesisRequestDTO.getCouncilId());
         }
         Thesis thesis = Thesis.builder()
                 .name(thesisRequestDTO.getName())

@@ -4,6 +4,7 @@ package com.duy.thesisManagement.thesis.dto;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,4 +16,5 @@ public class CouncilCreationDTO {
     private Date createdDate;
     private String name;
     private Integer facultyId;
+    private Set<CouncilPositionCreationDTO> councilPositions;
 }

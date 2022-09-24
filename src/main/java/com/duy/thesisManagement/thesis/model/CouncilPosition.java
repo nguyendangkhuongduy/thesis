@@ -21,7 +21,7 @@ public class CouncilPosition {
     private int id;
 
     @JoinColumn(name = "council_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Council councilId;
     @JoinColumn(name = "position_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)

@@ -1,32 +1,23 @@
 package com.duy.thesisManagement.thesis.service;
 
-import com.duy.thesisManagement.thesis.dto.CouncilCreationDTO;
-import com.duy.thesisManagement.thesis.dto.CouncilDTO;
-import com.duy.thesisManagement.thesis.dto.CouncilUpdatingDTO;
-import com.duy.thesisManagement.thesis.dto.UserCreationDTO;
+import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.exception.BadRequestException;
 import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
-import com.duy.thesisManagement.thesis.model.Council;
-import com.duy.thesisManagement.thesis.model.Faculty;
-import com.duy.thesisManagement.thesis.model.Role;
-import com.duy.thesisManagement.thesis.model.User;
+import com.duy.thesisManagement.thesis.model.*;
 import com.duy.thesisManagement.thesis.repository.CouncilRepository;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class CouncilServiceImpl implements CouncilService{
+public class CouncilCoreServiceImpl implements CouncilCoreService {
 
     private final CouncilRepository councilRepository;
     private final FacultyService facultyService;
-
 
     @Override
     public List<CouncilDTO> getAllCouncils() {
@@ -44,7 +35,7 @@ public class CouncilServiceImpl implements CouncilService{
     }
 
     @Override
-    public CouncilDTO getCouncilById(Integer id) {
+    public CouncilDTO getCouncilDTOById(Integer id) {
         Optional<Council> council = this.councilRepository.findById(id);
         if (council.isPresent()) {
             return this.toCouncilDTO(council.get());
@@ -62,11 +53,10 @@ public class CouncilServiceImpl implements CouncilService{
     }
 
     @Override
-    public CouncilDTO createCouncil(CouncilCreationDTO councilCreationDTO) {
+    public Council createCouncil(CouncilCreationDTO councilCreationDTO) {
         this.validateNewCouncil(councilCreationDTO);
         Council council = this.toCouncil(councilCreationDTO);
-        Council savedCouncil = this.councilRepository.save(council);
-        return toCouncilDTO(savedCouncil);
+        return council;
     }
 
     @Override
@@ -99,7 +89,7 @@ public class CouncilServiceImpl implements CouncilService{
         throw new ResourceNotFoundException("Cannot find any council for deleting action with id: " + id);
     }
 
-    private CouncilDTO toCouncilDTO(Council council) {
+    public CouncilDTO toCouncilDTO(Council council) {
         CouncilDTO councilDTO = CouncilDTO.builder()
                 .id(council.getId())
                 .active(council.isActive())
@@ -127,6 +117,7 @@ public class CouncilServiceImpl implements CouncilService{
         if (Objects.nonNull(councilCreationDTO.getFacultyId())) {
             faculty = this.facultyService.getFacultyById(councilCreationDTO.getFacultyId());
         }
+
         Council council= Council.builder()
                 .active(councilCreationDTO.getActive())
                 .name(councilCreationDTO.getName())
@@ -135,4 +126,5 @@ public class CouncilServiceImpl implements CouncilService{
                 .build();
         return council;
     }
+
 }

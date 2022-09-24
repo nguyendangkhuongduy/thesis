@@ -1,24 +1,51 @@
 package com.duy.thesisManagement.thesis.service;
 
-import com.duy.thesisManagement.thesis.dto.*;
+import com.duy.thesisManagement.thesis.dto.CouncilCreationDTO;
+import com.duy.thesisManagement.thesis.dto.CouncilDTO;
+import com.duy.thesisManagement.thesis.dto.CouncilUpdatingDTO;
 import com.duy.thesisManagement.thesis.model.Council;
+import com.duy.thesisManagement.thesis.model.CouncilPosition;
+import com.duy.thesisManagement.thesis.repository.CouncilRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
-public interface CouncilService {
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class CouncilService {
 
-    List<CouncilDTO> getAllCouncils();
+    private final CouncilCoreService councilCoreService;
+    private final CouncilPositionService councilPositionService;
 
-    CouncilDTO getCouncilByName(String name);
+    private final CouncilRepository councilRepository;
+    public CouncilDTO createCouncil(CouncilCreationDTO councilCreationDTO) {
+        Set<CouncilPosition> councilPositions = this.councilPositionService
+                .constructSetOfCouncilPosition(councilCreationDTO.getCouncilPositions());
+        Council council = this.councilCoreService.createCouncil(councilCreationDTO);
+        council.setCouncilPositionSet(councilPositions);
+        for (CouncilPosition item : councilPositions) {
+            item.setCouncilId(council);
+        }
+        return this.councilCoreService.toCouncilDTO(councilRepository.save(council));
+    }
 
-    CouncilDTO getCouncilById(Integer id);
+    public List<CouncilDTO> getAllCouncils() {
+        return this.councilCoreService.getAllCouncils();
+    }
 
-    Council getCouncilByID(Integer id);
+    public CouncilDTO getCouncilById(Integer id) {
+        return this.councilCoreService.getCouncilDTOById(id);
+    }
 
-    CouncilDTO createCouncil(CouncilCreationDTO councilCreationDTO);
+    public CouncilDTO updateCouncil(Integer id, CouncilUpdatingDTO councilUpdatingDTO) {
+        return this.councilCoreService.updateCouncil(id, councilUpdatingDTO);
+    }
 
-    CouncilDTO updateCouncil(Integer id, CouncilUpdatingDTO councilUpdatingDTO);
-
-    void deleteCouncil(Integer id);
-
+    public void deleteCouncil(Integer id) {
+        this.councilCoreService.deleteCouncil(id);
+    }
 }

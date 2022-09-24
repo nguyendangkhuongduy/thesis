@@ -2,20 +2,16 @@ package com.duy.thesisManagement.thesis.controller;
 
 
 import com.duy.thesisManagement.thesis.dto.*;
-import com.duy.thesisManagement.thesis.model.Council;
 import com.duy.thesisManagement.thesis.model.CouncilResponse;
 import com.duy.thesisManagement.thesis.model.UsersResponse;
-import com.duy.thesisManagement.thesis.repository.CouncilRepository;
-import com.duy.thesisManagement.thesis.repository.FacultyRepository;
 import com.duy.thesisManagement.thesis.service.CouncilService;
+import com.duy.thesisManagement.thesis.service.CouncilCoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.api.ErrorMessage;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

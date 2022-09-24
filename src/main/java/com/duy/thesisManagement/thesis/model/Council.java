@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -34,8 +35,9 @@ public class Council {
     @JoinColumn(name = "faculty_id", nullable = false)
     private Faculty faculty;
 
-    @OneToMany(mappedBy = "councilId")
-    private Set<CouncilPosition> councilPositionSet;
+    @OneToMany(mappedBy = "councilId", cascade = CascadeType.ALL)
+    private Set<CouncilPosition> councilPositionSet = new HashSet<>();
+
     @OneToMany(mappedBy = "councilId")
     private Set<Thesis> thesisSet;
 }

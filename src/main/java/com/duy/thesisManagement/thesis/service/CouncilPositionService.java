@@ -7,6 +7,7 @@ import com.duy.thesisManagement.thesis.dto.UserDTO;
 import com.duy.thesisManagement.thesis.model.CouncilPosition;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CouncilPositionService {
     List<CouncilPositionRequestDTO> getAllCouncilPosition();
@@ -16,4 +17,5 @@ public interface CouncilPositionService {
 
     CouncilPositionRequestDTO updatedCouncilPosition(CouncilPositionUpdatingDTO councilPositionUpdatingDTO);
 
+    Set<CouncilPosition> constructSetOfCouncilPosition(Set<CouncilPositionCreationDTO> councilPositions);
 }

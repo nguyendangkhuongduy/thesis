@@ -157,7 +157,6 @@ public class UserServiceImpl implements UserService {
 				}
 				String encodedPass = this.encoder.encode(userCreationDTO.getPassword());
 				User user = User.builder()
-						.active(userCreationDTO.getActive())
 						.email(userCreationDTO.getEmail())
 						.fullName(userCreationDTO.getFullName())
 						.gender(userCreationDTO.getGender())

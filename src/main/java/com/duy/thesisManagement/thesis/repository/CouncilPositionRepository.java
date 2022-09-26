@@ -9,8 +9,7 @@ import java.util.List;
 
 @Repository
 public interface CouncilPositionRepository extends JpaRepository<CouncilPosition, Integer> {
-
-    List<CouncilPosition> findByCouncilId(Integer id);
+    List<CouncilPosition> getByCouncilId(Integer id);
 
 
 }

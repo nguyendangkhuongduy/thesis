@@ -22,7 +22,7 @@ import lombok.ToString;
 public class CouncilPosition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ToString.Exclude
     @JoinColumn(name = "council_id", referencedColumnName = "id")

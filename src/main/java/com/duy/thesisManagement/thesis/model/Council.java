@@ -25,7 +25,7 @@ import java.util.Set;
 public class Council {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @NotBlank
     private String name;
     @NotBlank

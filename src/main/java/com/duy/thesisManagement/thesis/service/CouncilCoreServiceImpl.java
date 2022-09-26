@@ -100,6 +100,14 @@ public class CouncilCoreServiceImpl implements CouncilCoreService {
         return councilDTO;
     }
 
+//    @Override
+//    public List<CouncilPositionDTO> getByCouncilId(Integer id) {
+//        List<CouncilPosition> cp =  councilRepository.getByCouncilId(id);
+//        List<CouncilPositionDTO> result = cp.stream()
+//                .map(this::toCouncilPositionDTO).collect(Collectors.toList());
+//        return result;
+//    }
+
     private void validateNewCouncil(CouncilCreationDTO councilCreationDTO) {
         boolean nameExisted = this.councilRepository.existsByName(councilCreationDTO.getName());
         StringBuilder errorMessageBuilder = new StringBuilder();
@@ -125,6 +133,16 @@ public class CouncilCoreServiceImpl implements CouncilCoreService {
                 .faculty(faculty)
                 .build();
         return council;
+    }
+
+    private CouncilPositionDTO toCouncilPositionDTO(CouncilPosition councilPosition) {
+        CouncilPositionDTO positionRequestDTO = CouncilPositionDTO.builder()
+                .id(councilPosition.getId())
+                .userId(councilPosition.getUserId().getId())
+                .positionId(councilPosition.getPositionId().getId())
+                .councilId(councilPosition.getCouncilId().getId())
+                .build();
+        return positionRequestDTO;
     }
 
 }

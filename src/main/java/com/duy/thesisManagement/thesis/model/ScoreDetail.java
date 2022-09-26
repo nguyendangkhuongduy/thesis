@@ -17,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 public class ScoreDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @NotBlank
     private float score1;
     @NotBlank

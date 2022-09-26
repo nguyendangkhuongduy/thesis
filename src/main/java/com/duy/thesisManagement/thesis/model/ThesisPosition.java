@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class ThesisPosition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @JoinColumn(name = "thesis_position", referencedColumnName = "id")
     @ManyToOne

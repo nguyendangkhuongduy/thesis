@@ -21,7 +21,7 @@ import java.util.Set;
 public class Thesis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @NotBlank
     private String name;
     @NotBlank

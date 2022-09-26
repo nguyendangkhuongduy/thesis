@@ -4,6 +4,7 @@ package com.duy.thesisManagement.thesis.controller;
 import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.model.CouncilResponse;
 import com.duy.thesisManagement.thesis.model.UsersResponse;
+import com.duy.thesisManagement.thesis.service.CouncilPositionService;
 import com.duy.thesisManagement.thesis.service.CouncilService;
 import com.duy.thesisManagement.thesis.service.CouncilCoreService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,8 @@ import java.util.List;
 @RequestMapping(path = "/academic")
 public class CouncilController {
     private final CouncilService councilService;
+
+    private final CouncilPositionService councilPositionService;
 
     @GetMapping(path = "/council", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(
@@ -53,6 +57,9 @@ public class CouncilController {
                     @ApiResponse(responseCode = "404", description = "Cannot find any council")
             }
     )
+//    public ResponseEntity<List<CouncilPositionDTO>> getCouncilPositionByCouncilId(@PathVariable(value = "councilId") Integer councilId) {
+//        return new ResponseEntity<List<CouncilPositionDTO>>(councilService.getByCouncilId(councilId), HttpStatus.OK);
+//    }
     public ResponseEntity<CouncilDTO> getCouncil(@PathVariable(value = "id") Integer id) {
         CouncilDTO councilDTO = councilService.getCouncilById(id);
         return ResponseEntity.ok(councilDTO);

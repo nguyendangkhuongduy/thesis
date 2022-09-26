@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Score {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @JoinColumn(name = "council_position_id", referencedColumnName = "id")
     @ManyToOne

@@ -26,5 +26,7 @@ public interface CouncilCoreService {
 
     CouncilDTO toCouncilDTO(Council council);
 
+//    List<CouncilPositionDTO> getByCouncilId(Integer id);
+
 
 }

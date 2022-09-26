@@ -9,6 +9,7 @@ import com.duy.thesisManagement.thesis.model.CouncilPosition;
 import com.duy.thesisManagement.thesis.model.Position;
 import com.duy.thesisManagement.thesis.model.User;
 import com.duy.thesisManagement.thesis.repository.CouncilPositionRepository;
+import com.duy.thesisManagement.thesis.repository.CouncilRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,8 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
     private final PositionService positionService;
     private final UserService userService;
 
+    private final CouncilRepository councilRepository;
+
 
     @Override
     public List<CouncilPositionDTO> getAllCouncilPosition() {
@@ -37,9 +40,11 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
     // FIXME not done, need further action here
     @Override
     public List<CouncilPositionDTO> getCouncilPositionByCouncilId(Integer id) {
-        List<CouncilPosition> cp =  this.councilPositionRepository.findByCouncilId(id);
-//        return this.toCouncilPositionRequestDTO((CouncilPosition) cp);
-        return Collections.EMPTY_LIST;
+        Optional<Council> council = this.councilRepository.findById(id);
+        List<CouncilPosition> cp =  councilPositionRepository.getByCouncilId(council.get().getId());
+        List<CouncilPositionDTO> result = cp.stream()
+                .map(this::toCouncilPositionDTO).collect(Collectors.toList());
+        return result;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.duy.thesisManagement.thesis.service;
 
 import com.duy.thesisManagement.thesis.dto.CouncilCreationDTO;
 import com.duy.thesisManagement.thesis.dto.CouncilDTO;
+import com.duy.thesisManagement.thesis.dto.CouncilPositionDTO;
 import com.duy.thesisManagement.thesis.dto.CouncilUpdatingDTO;
 import com.duy.thesisManagement.thesis.model.Council;
 import com.duy.thesisManagement.thesis.model.CouncilPosition;
@@ -49,4 +50,9 @@ public class CouncilService {
     public void deleteCouncil(Integer id) {
         this.councilCoreService.deleteCouncil(id);
     }
+
+//    public List<CouncilPositionDTO> getByCouncilId(Integer id){
+//        return this.councilCoreService.getByCouncilId(id);
+//    }
+
 }

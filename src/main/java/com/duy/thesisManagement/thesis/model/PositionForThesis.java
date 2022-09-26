@@ -18,7 +18,7 @@ import java.util.Set;
 public class PositionForThesis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private AppThesisRole name;

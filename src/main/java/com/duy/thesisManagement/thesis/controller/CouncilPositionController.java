@@ -1,14 +1,19 @@
 package com.duy.thesisManagement.thesis.controller;
 
 import com.duy.thesisManagement.thesis.dto.*;
+import com.duy.thesisManagement.thesis.model.Council;
+import com.duy.thesisManagement.thesis.model.CouncilPosition;
 import com.duy.thesisManagement.thesis.model.CouncilPositionResponse;
+import com.duy.thesisManagement.thesis.repository.CouncilRepository;
 import com.duy.thesisManagement.thesis.service.CouncilPositionService;
+import com.duy.thesisManagement.thesis.service.CouncilService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +27,10 @@ import java.util.List;
 public class CouncilPositionController {
 
     private final CouncilPositionService councilPositionService;
+
+    private final CouncilService councilService;
+
+    private final CouncilRepository councilRepository;
 
     @GetMapping(path = "/councilPosition", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(
@@ -39,7 +48,7 @@ public class CouncilPositionController {
         response.setCouncilPosition(councilPosition);
         return ResponseEntity.ok(response);
     }
-    @GetMapping(path = "/councilPosition/{councilId}" ,produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(path = "/councilPosition/{id}" ,produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(
             description = "get dedicated council position by council id",
             security = @SecurityRequirement(name = "Bearer Authentication"),
@@ -47,12 +56,11 @@ public class CouncilPositionController {
                     @ApiResponse(responseCode = "200", description = "Success fetching council position by council id",
                             content = @Content(schema = @Schema(implementation = CouncilPositionDTO.class))),
                     @ApiResponse(responseCode = "401", description = "Authentication error"),
-                    @ApiResponse(responseCode = "404", description = "Cannot find any user")
+                    @ApiResponse(responseCode = "404", description = "Cannot find any Id")
             }
     )
-    public ResponseEntity<List<CouncilPositionDTO>> getCouncilPosition(@PathVariable(value = "councilId") Integer councilId) {
-        List<CouncilPositionDTO> councilPosition = councilPositionService.getCouncilPositionByCouncilId(councilId);
-        return ResponseEntity.ok(councilPosition);
+    public ResponseEntity<List<CouncilPositionDTO>> getCouncilPositionByCouncilId(@PathVariable(value = "id") Integer id) {
+        return new ResponseEntity<List<CouncilPositionDTO>>(councilPositionService.getCouncilPositionByCouncilId(id), HttpStatus.OK);
     }
 
     @PostMapping(path = "/councilPosition")

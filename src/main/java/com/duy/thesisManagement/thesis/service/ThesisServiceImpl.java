@@ -38,6 +38,13 @@ public class ThesisServiceImpl implements ThesisService {
     }
 
     @Override
+    public List<ThesisRequestDTO> getThesesNullCouncil() {
+        List<Thesis> theses = thesisRepository.getThesisNullCouncil();
+        List<ThesisRequestDTO> result = theses.stream().map(this::toThesisDTO).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
     public ThesisRequestDTO createdThesis(ThesisCreationDTO thesisCreationDTO) {
         this.validateNewThesis(thesisCreationDTO);
         Thesis thesis = this.toThesis(thesisCreationDTO);

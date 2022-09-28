@@ -49,6 +49,23 @@ public class ThesisController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping( path = "/thesisNullCouncil", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(
+            description = "get theses",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching theses",
+                            content = @Content(schema = @Schema(implementation = ThesisRequestDTO.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error")
+            }
+    )
+    public ResponseEntity<ThesisResponse> getThesesNullCouncil() {
+        List<ThesisRequestDTO> thesis = thesisService.getThesesNullCouncil();
+        ThesisResponse response = new ThesisResponse();
+        response.setTheses(thesis);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping(path = "/thesis/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(
             description = "get dedicated thesis by id",

@@ -8,6 +8,8 @@ import java.util.List;
 public interface ThesisService {
     List<ThesisRequestDTO> getTheses();
 
+    List<ThesisRequestDTO> getThesesNullCouncil();
+
     ThesisRequestDTO createdThesis(ThesisCreationDTO thesisCreationDTO);
 
     ThesisRequestDTO getThesisById(int id);

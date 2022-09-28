@@ -78,6 +78,7 @@ public class CouncilController {
         return ResponseEntity.ok(council);
     }
 
+
     @DeleteMapping("/council/{id}")
     public ResponseEntity<String> deleteCouncil(@PathVariable(value = "id") Integer id) {
         this.councilService.deleteCouncil(id);

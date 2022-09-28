@@ -17,9 +17,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity
+@Entity()
 @Table(name = "council_position")
+
 public class CouncilPosition {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

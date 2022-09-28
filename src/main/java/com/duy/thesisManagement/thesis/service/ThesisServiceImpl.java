@@ -4,6 +4,7 @@ import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.exception.BadRequestException;
 import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
 import com.duy.thesisManagement.thesis.model.*;
+import com.duy.thesisManagement.thesis.repository.CouncilRepository;
 import com.duy.thesisManagement.thesis.repository.ThesisRepository;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +22,8 @@ public class ThesisServiceImpl implements ThesisService {
 
     private final FacultyService facultyService;
 
+    private final CouncilRepository councilRepository;
+
     private final CouncilCoreService councilCoreService;
 
     @Autowired
@@ -35,9 +38,10 @@ public class ThesisServiceImpl implements ThesisService {
     }
 
     @Override
-    public ThesisRequestDTO createdThesis(ThesisRequestDTO thesisRequestDTO) {
-        this.validateNewThesis(thesisRequestDTO);
-        Thesis thesis = this.toThesis(thesisRequestDTO);
+    public ThesisRequestDTO createdThesis(ThesisCreationDTO thesisCreationDTO) {
+        this.validateNewThesis(thesisCreationDTO);
+        Thesis thesis = this.toThesis(thesisCreationDTO);
+        thesis.setActive(true);
         Thesis savedThesis = this.thesisRepository.save(thesis);
         return toThesisDTO(savedThesis);
     }
@@ -97,7 +101,40 @@ public class ThesisServiceImpl implements ThesisService {
         throw new ResourceNotFoundException("Cannot find any thesis for Update action with id: " + id);
     }
 
+    @Override
+    public Long countThesisByCouncilId(Integer id) {
+        Optional<Council> council = councilRepository.findById(id);
+        Long result = this.thesisRepository.countByCouncilId(council.get());
+        return result;
+    }
 
+    @Override
+    public ThesisRequestDTO addCouncil(Integer id, ThesisAddCouncilDTO thesisAddCouncilDTO) {
+        Optional<Thesis> foundThesis = this.thesisRepository.findById(id);
+        Council council = null;
+        if (Objects.nonNull(thesisAddCouncilDTO.getCouncilId())) {
+            council = this.councilCoreService.getCouncilByID(thesisAddCouncilDTO.getCouncilId());
+        }
+        if (foundThesis.isPresent()) {
+            Thesis updatingThesis = foundThesis.get();
+            updatingThesis.setCouncilId(council);
+            Thesis savedThesis = this.thesisRepository.save(updatingThesis);
+            return this.toThesisDTO(savedThesis);
+        }
+        throw new ResourceNotFoundException("Cannot find any thesis for Add action with id: " + id);
+    }
+
+    @Override
+    public ThesisRequestDTO addTotalScore(Integer id, ThesisAddTotalScoreDTO thesisAddTotalScoreDTO) {
+        Optional<Thesis> foundThesis = this.thesisRepository.findById(id);
+        if (foundThesis.isPresent()) {
+            Thesis updatingThesis = foundThesis.get();
+            updatingThesis.setTotalScore(thesisAddTotalScoreDTO.getTotalScore());
+            Thesis savedThesis = this.thesisRepository.save(updatingThesis);
+            return this.toThesisDTO(savedThesis);
+        }
+        throw new ResourceNotFoundException("Cannot find any thesis for Add score action with id: " + id);
+    }
 
 
     private ThesisRequestDTO toThesisDTO(Thesis thesis) {
@@ -108,31 +145,24 @@ public class ThesisServiceImpl implements ThesisService {
                 .createdDate(thesis.getCreatedDate())
                 .totalScore(thesis.getTotalScore())
                 .facultyId(thesis.getFaculty().getId())
-                .councilId(thesis.getCouncilId().getId()).build();
+                .councilId(thesis.getCouncilId().getId())
+                .build();
         return thesisDTO;
     }
 
-    private Thesis toThesis(ThesisRequestDTO thesisRequestDTO) {
+    private Thesis toThesis(ThesisCreationDTO thesisCreationDTO) {
         Faculty faculty = null;
-        Council council = null;
-        if (Objects.nonNull(thesisRequestDTO.getFacultyId())) {
-            faculty = this.facultyService.getFacultyById(thesisRequestDTO.getFacultyId());
-        }
-        if (Objects.nonNull(thesisRequestDTO.getCouncilId())) {
-            council = this.councilCoreService.getCouncilByID(thesisRequestDTO.getCouncilId());
+        if (Objects.nonNull(thesisCreationDTO.getFacultyId())) {
+            faculty = this.facultyService.getFacultyById(thesisCreationDTO.getFacultyId());
         }
         Thesis thesis = Thesis.builder()
-                .name(thesisRequestDTO.getName())
-                .createdDate(thesisRequestDTO.getCreatedDate())
+                .name(thesisCreationDTO.getName())
                 .faculty(faculty)
-                .councilId(council)
-                .totalScore(thesisRequestDTO.getTotalScore())
-                .active(thesisRequestDTO.isActive())
                 .build();
         return thesis;
     }
-    private void validateNewThesis(ThesisRequestDTO thesisRequestDTO) {
-        boolean ThesisNameExisted = this.thesisRepository.existsByName(thesisRequestDTO.getName());
+    private void validateNewThesis(ThesisCreationDTO thesisCreationDTO) {
+        boolean ThesisNameExisted = this.thesisRepository.existsByName(thesisCreationDTO.getName());
         StringBuilder errorMessageBuilder = new StringBuilder();
         if (ThesisNameExisted) {
             errorMessageBuilder.append("Cannot create thesis: Thesis name already existed");

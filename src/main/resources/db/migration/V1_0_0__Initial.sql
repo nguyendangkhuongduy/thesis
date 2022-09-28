@@ -119,7 +119,7 @@ DROP TABLE IF EXISTS `position_for_thesis`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `position_for_thesis` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -312,7 +312,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `active` bit(1) NOT NULL,
+  `active` bit(1) NOT NULL DEFAULT 0,
   `created_date` datetime(6) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `full_name` varchar(255) DEFAULT NULL,
@@ -353,6 +353,8 @@ UNLOCK TABLES;
 INSERT INTO roles (id, name) VALUES (1, "ROLE_ADMIN");
 INSERT INTO roles (id, name) VALUES (2, "ROLE_MANAGER");
 INSERT INTO roles (id, name) VALUES (3, "ROLE_ASSOCIATE");
+INSERT INTO roles (id, name) VALUES (4, "ROLE_STUDENT");
+
 
 INSERT INTO faculty (id, name) VALUES (1, "Information Technology");
 INSERT INTO faculty (id, name) VALUES (2, "economics");
@@ -367,18 +369,48 @@ INSERT INTO council (id, active, created_date, name, faculty_id)
 VALUES (3, true, "2022-02-01", "HD3", "3");
 
 
-INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date)
-VALUES (1, "admin", "khanh.tran@test.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh", "03333333", "male", "2022-02-01");
+
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (1, "admin", "khanh.tran@test.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh", "03333333", "male", "2022-02-01", "1");
 
 INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
 VALUES (2, "manager", "khanh.tran@test1.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh1", "0333333311", "male", "2022-02-01", "1");
 
 INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
-VALUES (3, "associate", "khanh.tran@test2.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh2", "033333331122", "male", "2022-02-01", "2");
+VALUES (3, "associate1", "khanh.tran@test2.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh2", "033333331", "male", "2022-02-01", "2");
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (4, "associate2", "khanh.tran@test3.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh3", "033333332", "male", "2022-02-01", "2");
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (5, "associate3", "khanh.tran@test4.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh4", "033333333", "male", "2022-02-01", "2");
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (6, "associate4", "khanh.tran@test5.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh5", "033333335", "male", "2022-02-01", "2");
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (7, "associate5", "khanh.tran@test6.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh6", "03333333127", "male", "2022-02-01", "2");
+
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (8, "student1", "khanh.tran@test7.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh7", "123456781", "male", "2022-02-01", "2");
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (9, "student2", "khanh.tran@test8.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh8", "123456782", "male", "2022-02-01", "2");
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (10, "student3", "khanh.tran@test9.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh9", "123456783", "male", "2022-02-01", "2");
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (11, "student4", "khanh.tran@test10.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh10", "123456784", "male", "2022-02-01", "2");
+INSERT INTO users (id, username, email, active, password, full_name, phone, gender, created_date, faculty_id)
+VALUES (12, "student5", "khanh.tran@test11.com", true, "$2a$10$1/XHX1tbJP4vJ/0VSRcS.e/HtBTtDTxCgITVHoEHbR3TTJjPNgVoO", "khanh11", "123456785", "male", "2022-02-01", "2");
 
 INSERT INTO user_roles (user_id, roles_id) VALUES (1,1);
 INSERT INTO user_roles (user_id, roles_id) VALUES (2,2);
 INSERT INTO user_roles (user_id, roles_id) VALUES (3,3);
+INSERT INTO user_roles (user_id, roles_id) VALUES (4,3);
+INSERT INTO user_roles (user_id, roles_id) VALUES (5,3);
+INSERT INTO user_roles (user_id, roles_id) VALUES (6,3);
+INSERT INTO user_roles (user_id, roles_id) VALUES (7,3);
+INSERT INTO user_roles (user_id, roles_id) VALUES (8,4);
+INSERT INTO user_roles (user_id, roles_id) VALUES (9,4);
+INSERT INTO user_roles (user_id, roles_id) VALUES (10,4);
+INSERT INTO user_roles (user_id, roles_id) VALUES (11,4);
+INSERT INTO user_roles (user_id, roles_id) VALUES (12,4);
+
 
 INSERT INTO thesis (id, active, created_date, name, total_score, council_id, faculty_id)
 VALUES (1, true, "2022-02-01", "thesis 1", "9", "1", "1");
@@ -386,4 +418,22 @@ INSERT INTO thesis (id, active, created_date, name, total_score, council_id, fac
 VALUES (2, true, "2022-02-01", "thesis 2", "9", "2", "2");
 INSERT INTO thesis (id, active, created_date, name, total_score, council_id, faculty_id)
 VALUES (3, true, "2022-02-01", "thesis 3", "9", "3", "3");
+
+
+
+INSERT INTO position_for_thesis (id, name) VALUES (1, "Giao viên hướng dẫn");
+INSERT INTO position_for_thesis (id, name) VALUES (2, "Sinh viên");
+
+
+INSERT INTO thesis_position (id, thesis_id, thesis_position, user_id)
+VALUES (1, "1", "1", "3");
+INSERT INTO thesis_position (id, thesis_id, thesis_position, user_id)
+VALUES (2, "1", "1", "4");
+
+INSERT INTO thesis_position (id, thesis_id, thesis_position, user_id)
+VALUES (3, "1", "2", "9");
+INSERT INTO thesis_position (id, thesis_id, thesis_position, user_id)
+VALUES (4, "1", "2", "10");
+INSERT INTO thesis_position (id, thesis_id, thesis_position, user_id)
+VALUES (5, "1", "2", "11");
 

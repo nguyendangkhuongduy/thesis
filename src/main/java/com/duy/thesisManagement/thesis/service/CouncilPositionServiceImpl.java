@@ -40,8 +40,8 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
     // FIXME not done, need further action here
     @Override
     public List<CouncilPositionDTO> getCouncilPositionByCouncilId(Integer id) {
-        Optional<Council> council = this.councilRepository.findById(id);
-        List<CouncilPosition> cp =  councilPositionRepository.getByCouncilId(council.get().getId());
+        Optional<Council> council = councilRepository.findById(id);
+        List<CouncilPosition> cp = councilPositionRepository.findByCouncilId(council.get());
         List<CouncilPositionDTO> result = cp.stream()
                 .map(this::toCouncilPositionDTO).collect(Collectors.toList());
         return result;
@@ -58,6 +58,36 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
         Council council = this.councilCoreService.getCouncilByID(councilPositionCreationDTO.getCouncilId());
         Position position = this.positionService.getPositionByID(councilPositionCreationDTO.getPositionId());
         User user = userService.getUserByID(councilPositionCreationDTO.getUserId());
+
+        Long b = this.councilPositionRepository.countPresidentByCouncilId(council);
+        if (b > 1) {
+            throw new BadRequestException(
+                    "Cannot create councilPosition because This President location already exists in Council");
+        }
+
+        Long c = this.councilPositionRepository.countCriticalByCouncilId(council);
+        if (c > 1) {
+            throw new BadRequestException(
+                    "Cannot create councilPosition because This Critical location already exists in Council");
+        }
+
+        Long d = this.councilPositionRepository.countSecretaryByCouncilId(council);
+        if (d > 1) {
+            throw new BadRequestException(
+                    "Cannot create councilPosition because This Secretary location already exists in Council");
+        }
+
+        Long e = this.councilPositionRepository.countMemberByCouncilId(council);
+        if (e > 2) {
+            throw new BadRequestException(
+                    "Cannot create councilPosition because This is enough 2 members");
+        }
+
+        Long a = this.councilPositionRepository.countByCouncilId(council);
+        if (a > 4) {
+            throw new BadRequestException(
+                    "Cannot create councilPosition because there are enough");
+        }
 
         CouncilPosition councilPosition = CouncilPosition.builder()
             .councilId(council)
@@ -111,6 +141,41 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
                     .build();
             result.add(councilPosition);
         }
+        return result;
+    }
+
+    @Override
+    public Long countCouncilPositionByCouncilId(Integer id) {
+        Optional<Council> council = councilRepository.findById(id);
+        Long result = this.councilPositionRepository.countByCouncilId(council.get());
+        return result;
+    }
+
+    @Override
+    public Long countPresidentByCouncilId(Integer id) {
+        Optional<Council> council = councilRepository.findById(id);
+        Long result = this.councilPositionRepository.countPresidentByCouncilId(council.get());
+        return result;
+    }
+
+    @Override
+    public Long countSecretaryByCouncilId(Integer id) {
+        Optional<Council> council = councilRepository.findById(id);
+        Long result = this.councilPositionRepository.countSecretaryByCouncilId(council.get());
+        return result;
+    }
+
+    @Override
+    public Long countCriticalByCouncilId(Integer id) {
+        Optional<Council> council = councilRepository.findById(id);
+        Long result = this.councilPositionRepository.countCriticalByCouncilId(council.get());
+        return result;
+    }
+
+    @Override
+    public Long countMemberByCouncilId(Integer id) {
+        Optional<Council> council = councilRepository.findById(id);
+        Long result = this.councilPositionRepository.countMemberByCouncilId(council.get());
         return result;
     }
 

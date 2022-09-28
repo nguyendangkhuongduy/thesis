@@ -1,7 +1,20 @@
 package com.duy.thesisManagement.thesis.service;
 
-import com.duy.thesisManagement.thesis.dto.ThesisPositionDTO;
+import com.duy.thesisManagement.thesis.dto.*;
+
+import java.util.List;
 
 public interface ThesisPositionService {
-    ThesisPositionDTO createdThesisPosition(ThesisPositionDTO thesisPositionDTO);
+
+    List<ThesisPositionDTO> getThesisPositionByThesisId(Integer id);
+
+    List<ThesisPositionDTO> getAllThesisPosition();
+
+    ThesisPositionDTO createThesisPosition(ThesisPositionCreationDTO thesisPositionCreationDTO);
+
+    void deleteThesisPosition(Integer id);
 }
+
+
+
+

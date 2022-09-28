@@ -59,8 +59,41 @@ public class CouncilPositionController {
                     @ApiResponse(responseCode = "404", description = "Cannot find any Id")
             }
     )
-    public ResponseEntity<List<CouncilPositionDTO>> getCouncilPositionByCouncilId(@PathVariable(value = "id") Integer id) {
-        return new ResponseEntity<List<CouncilPositionDTO>>(councilPositionService.getCouncilPositionByCouncilId(id), HttpStatus.OK);
+    public ResponseEntity<CouncilPositionResponse> getCouncilPositionByCouncilId(@PathVariable(value = "id") Integer id) {
+        List<CouncilPositionDTO> councilPosition = councilPositionService.getCouncilPositionByCouncilId(id);
+        CouncilPositionResponse response = new CouncilPositionResponse();
+        response.setCouncilPosition(councilPosition);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/councilPosition/count/{id}")
+    public ResponseEntity<?> countCouncilPosition(@PathVariable(value = "id") Integer id){
+        Long count = this.councilPositionService.countCouncilPositionByCouncilId(id);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping(path = "/councilPosition/countPresident/{id}")
+    public ResponseEntity<?> countPresident(@PathVariable(value = "id") Integer id){
+        Long count = this.councilPositionService.countPresidentByCouncilId(id);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping(path = "/councilPosition/countSecretary/{id}")
+    public ResponseEntity<?> countSecretary(@PathVariable(value = "id") Integer id){
+        Long count = this.councilPositionService.countSecretaryByCouncilId(id);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping(path = "/councilPosition/countCritical/{id}")
+    public ResponseEntity<?> countCritical(@PathVariable(value = "id") Integer id){
+        Long count = this.councilPositionService.countCriticalByCouncilId(id);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping(path = "/councilPosition/countMember/{id}")
+    public ResponseEntity<?> countMember(@PathVariable(value = "id") Integer id){
+        Long count = this.councilPositionService.countMemberByCouncilId(id);
+        return ResponseEntity.ok(count);
     }
 
     @PostMapping(path = "/councilPosition")

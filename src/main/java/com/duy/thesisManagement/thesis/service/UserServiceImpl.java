@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
 		@Override
 		public List<UserDTO> getAllUsers() {
-				List<User> users = userRepository.findAll();
+				List<User> users = userRepository.findByActiveTrue();
 				List<UserDTO> result = users.stream().map(this::toUserDTO).collect(Collectors.toList());
 				return result;
 		}
@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
 		public UserDTO createUser(UserCreationDTO userCreationDTO) {
 				this.validateNewUser(userCreationDTO);
 				User user = this.toUser(userCreationDTO);
+				user.setActive(true);
 				User savedUser = this.userRepository.save(user);
 				return toUserDTO(savedUser);
 		}
@@ -133,7 +134,14 @@ public class UserServiceImpl implements UserService {
 				throw new ResourceNotFoundException("Cannot find any user for changing password action with id: " + id);
 		}
 
-		private UserDTO toUserDTO(User user) {
+//	@Override
+//	public List<UserDTO> getAllAssociate() {
+//		List<User> users = userRepository.findAllByRoles();
+//		List<UserDTO> result = users.stream().map(this::toUserDTO).collect(Collectors.toList());
+//		return result;
+//	}
+
+	private UserDTO toUserDTO(User user) {
 				UserDTO userDTO = UserDTO.builder()
 						.id(user.getId())
 						.username(user.getUsername())

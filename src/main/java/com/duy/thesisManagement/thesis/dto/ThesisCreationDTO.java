@@ -12,9 +12,5 @@ import java.util.Date;
 @Builder
 public class ThesisCreationDTO {
     private String name;
-    private Integer councilId;
     private Integer facultyId;
-    private boolean active;
-    private Date createdDate;
-    private float totalScore;
 }

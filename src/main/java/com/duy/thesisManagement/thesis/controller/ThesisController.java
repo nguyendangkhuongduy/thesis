@@ -65,10 +65,16 @@ public class ThesisController {
         return ResponseEntity.ok(thesis);
     }
 
+    @GetMapping(path = "/thesis/count/{id}")
+    public ResponseEntity<?> countThesis(@PathVariable(value = "id") Integer id){
+        Long count = this.thesisService.countThesisByCouncilId(id);
+        return ResponseEntity.ok(count);
+    }
+
 
     @PostMapping("/thesis")
-    public ResponseEntity<ThesisRequestDTO> createThesis(@Valid @RequestBody ThesisRequestDTO thesisRequestDTO) {
-        ThesisRequestDTO createdThesis = this.thesisService.createdThesis(thesisRequestDTO);
+    public ResponseEntity<ThesisRequestDTO> createThesis(@Valid @RequestBody ThesisCreationDTO thesisCreationDTO) {
+        ThesisRequestDTO createdThesis = this.thesisService.createdThesis(thesisCreationDTO);
         return ResponseEntity.ok(createdThesis);
     }
 
@@ -76,6 +82,20 @@ public class ThesisController {
     public ResponseEntity<ThesisRequestDTO> UpdateThesis(@PathVariable(value = "id") Integer id,
                                               @Valid @RequestBody ThesisUpdatingDTO thesisUpdatingDTO) {
         ThesisRequestDTO thesis = this.thesisService.updateThesis(id, thesisUpdatingDTO);
+        return ResponseEntity.ok(thesis);
+    }
+
+    @PutMapping(path = "/addCouncil/{id}")
+    public ResponseEntity<ThesisRequestDTO> addCouncil(@PathVariable(value = "id") Integer id,
+                                                       @Valid @RequestBody ThesisAddCouncilDTO thesisAddCouncilDTO) {
+        ThesisRequestDTO thesis = this.thesisService.addCouncil(id, thesisAddCouncilDTO);
+        return ResponseEntity.ok(thesis);
+    }
+
+    @PutMapping(path = "/addTotalScore/{id}")
+    public ResponseEntity<ThesisRequestDTO> addTotalScore(@PathVariable(value = "id") Integer id,
+                                                       @Valid @RequestBody ThesisAddTotalScoreDTO thesisAddCouncilDTO) {
+        ThesisRequestDTO thesis = this.thesisService.addTotalScore(id, thesisAddCouncilDTO);
         return ResponseEntity.ok(thesis);
     }
 

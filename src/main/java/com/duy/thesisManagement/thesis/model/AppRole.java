@@ -5,7 +5,8 @@ import java.util.Optional;
 public enum AppRole {
 		ROLE_ADMIN,
 		ROLE_MANAGER,
-		ROLE_ASSOCIATE;
+		ROLE_ASSOCIATE,
+		ROLE_STUDENT;
 
 		public static Optional<AppRole> fromValue(String roleString) {
 				for (AppRole role: AppRole.values()) {

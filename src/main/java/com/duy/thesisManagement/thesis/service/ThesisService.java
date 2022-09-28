@@ -1,14 +1,14 @@
 package com.duy.thesisManagement.thesis.service;
 
-import com.duy.thesisManagement.thesis.dto.ThesisRequestDTO;
-import com.duy.thesisManagement.thesis.dto.ThesisUpdatingDTO;
+import com.duy.thesisManagement.thesis.dto.*;
+import com.duy.thesisManagement.thesis.model.Council;
 import com.duy.thesisManagement.thesis.model.Thesis;
 import java.util.List;
 
 public interface ThesisService {
     List<ThesisRequestDTO> getTheses();
 
-    ThesisRequestDTO createdThesis(ThesisRequestDTO thesisRequestDTO);
+    ThesisRequestDTO createdThesis(ThesisCreationDTO thesisCreationDTO);
 
     ThesisRequestDTO getThesisById(int id);
 
@@ -17,6 +17,12 @@ public interface ThesisService {
     void deleteThesis(Integer id);
 
     ThesisRequestDTO updateThesis(Integer id, ThesisUpdatingDTO thesisUpdatingDTO);
+
+    Long countThesisByCouncilId(Integer id);
+
+    ThesisRequestDTO addCouncil(Integer id, ThesisAddCouncilDTO thesisAddCouncilDTO);
+
+    ThesisRequestDTO addTotalScore(Integer id, ThesisAddTotalScoreDTO thesisAddTotalScoreDTO);
 
 
 

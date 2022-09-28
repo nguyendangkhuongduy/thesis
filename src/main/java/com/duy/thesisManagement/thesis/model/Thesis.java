@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -22,17 +23,21 @@ public class Thesis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @NotBlank
     private String name;
+
     @NotBlank
     private boolean active;
+
     @NotBlank
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @CreationTimestamp
     @Column(name = "created_date")
     private Date createdDate;
-    @NotBlank
+
     @Column(name = "total_score")
     private float totalScore;
+
     @JoinColumn(name = "council_id")
     @ManyToOne
     private Council councilId;

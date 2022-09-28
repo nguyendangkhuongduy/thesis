@@ -34,6 +34,24 @@ public class UserController {
 
     private final UserService userService;
 
+
+//    @GetMapping(path = "/associate",produces = {MediaType.APPLICATION_JSON_VALUE})
+//    @Operation(
+//            description = "get all Associate",
+//            security = @SecurityRequirement(name = "Bearer Authentication"),
+//            responses = {
+//                    @ApiResponse(responseCode = "200", description = "Success fetching all users",
+//                            content = @Content(schema = @Schema(implementation = UsersResponse.class))),
+//                    @ApiResponse(responseCode = "401", description = "Authentication error")
+//            }
+//    )
+//    public ResponseEntity<UsersResponse> getAllAssociate() {
+//        List<UserDTO> users = userService.getAllAssociate();
+//        UsersResponse response = new UsersResponse();
+//        response.setUsers(users);
+//        return ResponseEntity.ok(response);
+//    }
+
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(
         description = "get all users",

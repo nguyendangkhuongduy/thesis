@@ -22,4 +22,6 @@ public interface UserService {
 		void deleteUser(Integer id);
 
 		void changePassword(Integer id, String newPassword);
+
+//		List<UserDTO> getAllAssociate();
 }

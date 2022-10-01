@@ -167,8 +167,10 @@ public class ThesisServiceImpl implements ThesisService {
                 .createdDate(thesis.getCreatedDate())
                 .totalScore(thesis.getTotalScore())
                 .facultyId(thesis.getFaculty().getId())
-                .councilId(thesis.getCouncilId().getId())
                 .build();
+        if (Objects.nonNull(thesis.getCouncilId())) {
+            thesisDTO.setCouncilId(thesis.getCouncilId().getId());
+        }
         return thesisDTO;
     }
 

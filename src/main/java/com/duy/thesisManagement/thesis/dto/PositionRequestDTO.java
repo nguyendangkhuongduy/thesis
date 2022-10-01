@@ -1,11 +1,15 @@
 package com.duy.thesisManagement.thesis.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PositionRequestDTO {
-    private Set<String> name;
+    private Integer id;
+    private String name;
 }

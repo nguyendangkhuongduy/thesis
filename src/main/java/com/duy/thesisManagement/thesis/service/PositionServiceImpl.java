@@ -1,9 +1,6 @@
 package com.duy.thesisManagement.thesis.service;
 
-import com.duy.thesisManagement.thesis.dto.PositionCreationDTO;
-import com.duy.thesisManagement.thesis.dto.PositionDTO;
-import com.duy.thesisManagement.thesis.dto.UserCreationDTO;
-import com.duy.thesisManagement.thesis.dto.UserDTO;
+import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.exception.BadRequestException;
 import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
 import com.duy.thesisManagement.thesis.model.*;
@@ -33,8 +30,8 @@ public class PositionServiceImpl implements PositionService{
 
     @Override
     public PositionDTO createPosition(PositionCreationDTO positionCreationDTO) {
-//        this.validateNewPosition(positionCreationDTO);
         Position position = this.toPosition(positionCreationDTO);
+        position.setActive(true);
         Position saved = this.positionRepository.save(position);
         return toPositionDTO(saved);
     }

@@ -21,7 +21,7 @@ public class CouncilCoreServiceImpl implements CouncilCoreService {
 
     @Override
     public List<CouncilDTO> getAllCouncils() {
-        List<Council> councils = councilRepository.findAll();
+        List<Council> councils = councilRepository.findByActiveTrue();
         List<CouncilDTO> result = councils.stream().map(this::toCouncilDTO).collect(Collectors.toList());
         return result;
     }
@@ -56,7 +56,9 @@ public class CouncilCoreServiceImpl implements CouncilCoreService {
     public Council createCouncil(CouncilCreationDTO councilCreationDTO) {
         this.validateNewCouncil(councilCreationDTO);
         Council council = this.toCouncil(councilCreationDTO);
-        return council;
+        council.setActive(true);
+        Council saved = this.councilRepository.save(council);
+        return saved;
     }
 
     @Override
@@ -127,9 +129,9 @@ public class CouncilCoreServiceImpl implements CouncilCoreService {
         }
 
         Council council= Council.builder()
-                .active(councilCreationDTO.getActive())
+//                .active(councilCreationDTO.getActive())
                 .name(councilCreationDTO.getName())
-                .createdDate(councilCreationDTO.getCreatedDate())
+//                .createdDate(councilCreationDTO.getCreatedDate())
                 .faculty(faculty)
                 .build();
         return council;

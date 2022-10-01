@@ -33,7 +33,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public List<FacultyRequestDTO> getAllFaculties() {
-        List<Faculty> faculties = facultyRepository.findAll();
+        List<Faculty> faculties = facultyRepository.findByActiveTrue();
         List<FacultyRequestDTO> result = faculties.stream().map(this::toFacultyRequestDTO).collect(Collectors.toList());
         return result;
     }
@@ -51,7 +51,8 @@ public class FacultyServiceImpl implements FacultyService {
         Optional<Faculty> facultyOpt = this.facultyRepository.findById(id);
         if (facultyOpt.isPresent()) {
             Faculty deleted = facultyOpt.get();
-            this.facultyRepository.delete(deleted);
+            deleted.setActive(false);
+            this.facultyRepository.save(deleted);
             return;
         }
         throw new ResourceNotFoundException("Cannot find any faculty for deleting action with id: " + id);

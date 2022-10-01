@@ -62,7 +62,6 @@ public class User {
 		private Date createdDate;
 
 		@ManyToOne(fetch = FetchType.EAGER)
-
 		@JoinColumn(name = "faculty_id")
 		private Faculty faculty;
 

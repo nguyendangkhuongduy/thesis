@@ -18,16 +18,20 @@ public class ScoreDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank
-    private float score1;
-    @NotBlank
-    private float score2;
-    @NotBlank
-    private float score3;
-    @NotBlank
-    private float score4;
 
     @JoinColumn(name = "score_id", referencedColumnName = "id")
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Score score;
+
+    @JoinColumn(name = "criteria_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Criteria criteria;
+
+//    @JoinColumn(name = "criteria_id")
+//    private Criteria criteria;
+
+    @NotBlank
+    private float mark;
+
+
 }

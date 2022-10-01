@@ -24,7 +24,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/academic")
+@RequestMapping()
 public class ThesisController {
 
     @Autowired
@@ -49,22 +49,23 @@ public class ThesisController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping( path = "/thesisNullCouncil", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Operation(
-            description = "get theses",
-            security = @SecurityRequirement(name = "Bearer Authentication"),
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success fetching theses",
-                            content = @Content(schema = @Schema(implementation = ThesisRequestDTO.class))),
-                    @ApiResponse(responseCode = "401", description = "Authentication error")
-            }
-    )
-    public ResponseEntity<ThesisResponse> getThesesNullCouncil() {
-        List<ThesisRequestDTO> thesis = thesisService.getThesesNullCouncil();
-        ThesisResponse response = new ThesisResponse();
-        response.setTheses(thesis);
-        return ResponseEntity.ok(response);
-    }
+
+//    @GetMapping( path = "/thesisNullCouncil", produces = {MediaType.APPLICATION_JSON_VALUE})
+//    @Operation(
+//            description = "get theses",
+//            security = @SecurityRequirement(name = "Bearer Authentication"),
+//            responses = {
+//                    @ApiResponse(responseCode = "200", description = "Success fetching theses",
+//                            content = @Content(schema = @Schema(implementation = ThesisRequestDTO.class))),
+//                    @ApiResponse(responseCode = "401", description = "Authentication error")
+//            }
+//    )
+//    public ResponseEntity<ThesisResponse> getThesesNullCouncil() {
+//        List<ThesisRequestDTO> thesis = thesisService.getThesesNullCouncil();
+//        ThesisResponse response = new ThesisResponse();
+//        response.setTheses(thesis);
+//        return ResponseEntity.ok(response);
+//    }
 
     @GetMapping(path = "/thesis/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(
@@ -72,7 +73,7 @@ public class ThesisController {
             security = @SecurityRequirement(name = "Bearer Authentication"),
             responses = {
                     @ApiResponse(responseCode = "200", description = "Success fetching thesis by id",
-                            content = @Content(schema = @Schema(implementation = UserDTO.class))),
+                            content = @Content(schema = @Schema(implementation = ThesisRequestDTO.class))),
                     @ApiResponse(responseCode = "401", description = "Authentication error"),
                     @ApiResponse(responseCode = "404", description = "Cannot find any thesis")
             }
@@ -80,6 +81,24 @@ public class ThesisController {
     public ResponseEntity<ThesisRequestDTO> getThesis(@PathVariable(value = "id") Integer id){
         ThesisRequestDTO thesis = thesisService.getThesisById(id);
         return ResponseEntity.ok(thesis);
+    }
+
+    @GetMapping(path = "/thesis/thesisByCouncilId/{councilId}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(
+            description = "get dedicated thesis by id",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching thesis by id",
+                            content = @Content(schema = @Schema(implementation = ThesisRequestDTO.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error"),
+                    @ApiResponse(responseCode = "404", description = "Cannot find any thesis")
+            }
+    )
+    public ResponseEntity<ThesisResponse> getThesisByCouncilId(@PathVariable(value = "councilId") Integer councilId){
+        List<ThesisRequestDTO> thesis = thesisService.getThesesByCouncilId(councilId);
+        ThesisResponse response = new ThesisResponse();
+        response.setTheses(thesis);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping(path = "/thesis/count/{id}")
@@ -102,14 +121,14 @@ public class ThesisController {
         return ResponseEntity.ok(thesis);
     }
 
-    @PutMapping(path = "/addCouncil/{id}")
+    @PutMapping(path = "/thesis/addCouncil/{id}")
     public ResponseEntity<ThesisRequestDTO> addCouncil(@PathVariable(value = "id") Integer id,
                                                        @Valid @RequestBody ThesisAddCouncilDTO thesisAddCouncilDTO) {
         ThesisRequestDTO thesis = this.thesisService.addCouncil(id, thesisAddCouncilDTO);
         return ResponseEntity.ok(thesis);
     }
 
-    @PutMapping(path = "/addTotalScore/{id}")
+    @PutMapping(path = "/thesis/addTotalScore/{id}")
     public ResponseEntity<ThesisRequestDTO> addTotalScore(@PathVariable(value = "id") Integer id,
                                                        @Valid @RequestBody ThesisAddTotalScoreDTO thesisAddCouncilDTO) {
         ThesisRequestDTO thesis = this.thesisService.addTotalScore(id, thesisAddCouncilDTO);

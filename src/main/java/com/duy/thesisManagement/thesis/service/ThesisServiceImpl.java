@@ -32,17 +32,32 @@ public class ThesisServiceImpl implements ThesisService {
     @Override
     public List<ThesisRequestDTO> getTheses()
     {
-        List<Thesis> theses = thesisRepository.findAll();
+        List<Thesis> theses = thesisRepository.findByActiveTrue();
         List<ThesisRequestDTO> result = theses.stream().map(this::toThesisDTO).collect(Collectors.toList());
         return result;
     }
 
     @Override
-    public List<ThesisRequestDTO> getThesesNullCouncil() {
-        List<Thesis> theses = thesisRepository.getThesisNullCouncil();
-        List<ThesisRequestDTO> result = theses.stream().map(this::toThesisDTO).collect(Collectors.toList());
+    public List<ThesisRequestDTO> getThesesByCouncilId(Integer id) {
+        Optional<Council> council = councilRepository.findById(id);
+        List<Thesis> cp = thesisRepository.getByCouncilId(council.get());
+        List<ThesisRequestDTO> result = cp.stream()
+                .map(this::toThesisDTO).collect(Collectors.toList());
         return result;
     }
+
+//    @Override
+//    public List<ThesisRequestDTO> getThesesNullCouncil() {
+//        List<Thesis> theses = thesisRepository.getThesisNullCouncil();
+//        List<ThesisRequestDTO> result = theses.stream().map(this::toThesisDTO).collect(Collectors.toList());
+//        return result;
+//    }
+
+//    @Override
+//    public List<Thesis> getTheses() {
+//        List<Thesis> theses = thesisRepository.findAll();
+//        return theses;
+//    }
 
     @Override
     public ThesisRequestDTO createdThesis(ThesisCreationDTO thesisCreationDTO) {

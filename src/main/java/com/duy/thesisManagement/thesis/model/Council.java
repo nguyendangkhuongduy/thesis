@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -31,7 +32,7 @@ public class Council {
     @NotBlank
     private boolean active;
     @NotBlank
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @CreationTimestamp
     private Date createdDate;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

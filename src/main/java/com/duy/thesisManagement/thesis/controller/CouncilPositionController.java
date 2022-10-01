@@ -48,6 +48,26 @@ public class CouncilPositionController {
         response.setCouncilPosition(councilPosition);
         return ResponseEntity.ok(response);
     }
+
+
+    @GetMapping(path = "/councilPositionByUserId/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(
+            description = "get all councilPosition",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching all users",
+                            content = @Content(schema = @Schema(implementation = CouncilPositionResponse.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error")
+            }
+    )
+    public ResponseEntity<CouncilPositionResponse> getCouncilPositionByUserId(@PathVariable(value = "userId") Integer userId) {
+        List<CouncilPositionDTO> councilPosition = councilPositionService.getCouncilPositionByUserId(userId);
+        CouncilPositionResponse response = new CouncilPositionResponse();
+        response.setCouncilPosition(councilPosition);
+        return ResponseEntity.ok(response);
+    }
+
+
     @GetMapping(path = "/councilPosition/{id}" ,produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(
             description = "get dedicated council position by council id",
@@ -65,6 +85,8 @@ public class CouncilPositionController {
         response.setCouncilPosition(councilPosition);
         return ResponseEntity.ok(response);
     }
+
+
 
     @GetMapping(path = "/councilPosition/count/{id}")
     public ResponseEntity<?> countCouncilPosition(@PathVariable(value = "id") Integer id){

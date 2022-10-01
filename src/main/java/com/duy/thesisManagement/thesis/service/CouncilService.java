@@ -24,13 +24,13 @@ public class CouncilService {
 
     private final CouncilRepository councilRepository;
     public CouncilDTO createCouncil(CouncilCreationDTO councilCreationDTO) {
-        Set<CouncilPosition> councilPositions = this.councilPositionService
-                .constructSetOfCouncilPosition(councilCreationDTO.getCouncilPositions());
+//        Set<CouncilPosition> councilPositions = this.councilPositionService
+//                .constructSetOfCouncilPosition(councilCreationDTO.getCouncilPositions());
         Council council = this.councilCoreService.createCouncil(councilCreationDTO);
-        council.setCouncilPositionSet(councilPositions);
-        for (CouncilPosition item : councilPositions) {
-            item.setCouncilId(council);
-        }
+//        council.setCouncilPositionSet(councilPositions);
+//        for (CouncilPosition item : councilPositions) {
+//            item.setCouncilId(council);
+//        }
         Council saved = councilRepository.save(council);
         return this.councilCoreService.toCouncilDTO(saved);
     }

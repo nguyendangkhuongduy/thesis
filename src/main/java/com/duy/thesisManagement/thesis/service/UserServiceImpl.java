@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 				boolean emailExisted = this.userRepository.existsByEmail(userCreationDTO.getEmail());
 				StringBuilder errorMessageBuilder = new StringBuilder();
 				if (usernameExisted) {
-						errorMessageBuilder.append("Cannot create user: username alredy existed");
+						errorMessageBuilder.append("Cannot create user: username already existed");
 				}
 				if (emailExisted) {
 						errorMessageBuilder.append(" and ");

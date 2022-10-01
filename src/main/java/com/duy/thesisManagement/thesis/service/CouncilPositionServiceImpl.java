@@ -10,6 +10,7 @@ import com.duy.thesisManagement.thesis.model.Position;
 import com.duy.thesisManagement.thesis.model.User;
 import com.duy.thesisManagement.thesis.repository.CouncilPositionRepository;
 import com.duy.thesisManagement.thesis.repository.CouncilRepository;
+import com.duy.thesisManagement.thesis.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
     private final PositionService positionService;
     private final UserService userService;
 
+    private final UserRepository userRepository;
     private final CouncilRepository councilRepository;
 
 
@@ -33,6 +35,15 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
     public List<CouncilPositionDTO> getAllCouncilPosition() {
         List<CouncilPosition>  councilPositions = councilPositionRepository.findAll();
         List<CouncilPositionDTO> result = councilPositions.stream()
+                .map(this::toCouncilPositionDTO).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public List<CouncilPositionDTO> getCouncilPositionByUserId(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+        List<CouncilPosition> cp = councilPositionRepository.getByUserId(user.get());
+        List<CouncilPositionDTO> result = cp.stream()
                 .map(this::toCouncilPositionDTO).collect(Collectors.toList());
         return result;
     }

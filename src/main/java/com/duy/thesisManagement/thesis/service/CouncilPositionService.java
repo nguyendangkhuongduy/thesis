@@ -11,7 +11,10 @@ import java.util.Set;
 
 public interface CouncilPositionService {
     List<CouncilPositionDTO> getAllCouncilPosition();
+
+    List<CouncilPositionDTO> getCouncilPositionByUserId(Integer id);
     List<CouncilPositionDTO> getCouncilPositionByCouncilId(Integer id);
+
 
     CouncilPositionDTO createdCouncilPosition(CouncilPositionCreationDTO councilPositionCreationDTO);
 

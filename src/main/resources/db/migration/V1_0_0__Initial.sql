@@ -78,6 +78,7 @@ DROP TABLE IF EXISTS `faculty`;
 CREATE TABLE `faculty` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
+  `active` bit(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -91,12 +92,35 @@ LOCK TABLES `faculty` WRITE;
 /*!40000 ALTER TABLE `faculty` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+DROP TABLE IF EXISTS `criteria`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `criteria` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `active` bit(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `criteria`
+--
+
+LOCK TABLES `criteria` WRITE;
+/*!40000 ALTER TABLE `criteria` DISABLE KEYS */;
+/*!40000 ALTER TABLE `criteria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 DROP TABLE IF EXISTS `position`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `position` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
+  `active` bit(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -166,6 +190,7 @@ DROP TABLE IF EXISTS `score`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `score` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `active` bit(1) NOT NULL,
   `council_position_id` int(11) DEFAULT NULL,
   `thesis_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),

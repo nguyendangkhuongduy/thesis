@@ -23,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/academic")
+@RequestMapping()
 public class CouncilController {
     private final CouncilService councilService;
 

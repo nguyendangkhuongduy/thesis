@@ -55,7 +55,9 @@ public class AuthenticationController {
 						.map(item -> item.getAuthority())
 						.collect(Collectors.toList());
 				JwtResponse jwtResponse = JwtResponse.builder().token(jwt).username(userDetails.getUsername())
-						.email(userDetails.getEmail()).roles(roles).build();
+						.email(userDetails.getEmail()).roles(roles).id(userDetails.getId()).fullName(userDetails.getFullName())
+						.gender(userDetails.getGender()).phone(userDetails.getPhone()).facultyId(userDetails.getFacultyId())
+						.build();
 				return ResponseEntity.ok(jwtResponse);
 		}
 

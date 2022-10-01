@@ -1,16 +1,16 @@
 package com.duy.thesisManagement.thesis.service;
 
-import com.duy.thesisManagement.thesis.dto.ScoreDTO;
-import com.duy.thesisManagement.thesis.dto.ThesisRequestDTO;
-import com.duy.thesisManagement.thesis.dto.ThesisUpdatingDTO;
+import com.duy.thesisManagement.thesis.dto.*;
 
 import java.util.List;
 
 public interface ScoreService {
 
-    ScoreDTO createdScore(ScoreDTO scoreDTO);
+    ScoreDTO createdScore(ScoreCreationDTO scoreCreationDTO);
 
-    void deleteScore(ScoreDTO scoreDTO);
+    void deleteScore(Integer id);
 
     ScoreDTO updateScore(ScoreDTO scoreDTO);
+
+    List<ScoreDTO> getScores();
 }

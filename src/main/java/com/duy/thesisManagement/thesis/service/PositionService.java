@@ -1,9 +1,6 @@
 package com.duy.thesisManagement.thesis.service;
 
-import com.duy.thesisManagement.thesis.dto.PositionCreationDTO;
-import com.duy.thesisManagement.thesis.dto.PositionDTO;
-import com.duy.thesisManagement.thesis.dto.UserCreationDTO;
-import com.duy.thesisManagement.thesis.dto.UserDTO;
+import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.model.Position;
 import com.duy.thesisManagement.thesis.model.User;
 

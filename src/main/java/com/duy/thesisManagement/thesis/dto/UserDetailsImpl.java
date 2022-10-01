@@ -18,15 +18,24 @@ public class UserDetailsImpl implements UserDetails {
 		private String email;
 		@JsonIgnore
 		private String password;
+
+		private String fullName;
+		private String gender;
+		private String phone;
+		private Integer facultyId;
 		private Collection<? extends GrantedAuthority> authorities;
 
-		public UserDetailsImpl(Integer id, String username, String email, String password,
-				Collection<? extends GrantedAuthority> authorities) {
+		public UserDetailsImpl(Integer id, String username, String email, String password, String fullName, String gender,
+				String phone, Integer facultyId, Collection<? extends GrantedAuthority> authorities) {
 				this.id = id;
 				this.username = username;
 				this.email = email;
 				this.password = password;
 				this.authorities = authorities;
+				this.fullName = fullName;
+				this.gender = gender;
+				this.phone = phone;
+				this.facultyId = facultyId;
 		}
 
 		public static UserDetailsImpl build(User user) {
@@ -38,6 +47,10 @@ public class UserDetailsImpl implements UserDetails {
 						user.getUsername(),
 						user.getEmail(),
 						user.getPassword(),
+						user.getFullName(),
+						user.getGender(),
+						user.getPhone(),
+						user.getFaculty().getId(),
 						authorities);
 		}
 
@@ -95,4 +108,20 @@ public class UserDetailsImpl implements UserDetails {
 				UserDetailsImpl user = (UserDetailsImpl) o;
 				return Objects.equals(id, user.id);
 		}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public Integer getFacultyId() {
+		return facultyId;
+	}
 }

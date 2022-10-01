@@ -38,10 +38,10 @@ public class PositionController {
                     @ApiResponse(responseCode = "401", description = "Authentication error")
             }
     )
-    public ResponseEntity<PositonResponse> getPosition() {
+    public ResponseEntity<PositionResponse> getPosition() {
         List<PositionDTO> position = positionService.getAllPosition();
-        PositonResponse response = new PositonResponse();
-        response.setPosition(position);
+        PositionResponse response = new PositionResponse();
+        response.setPositions(position);
         return ResponseEntity.ok(response);
     }
 

@@ -8,7 +8,10 @@ import java.util.List;
 public interface ThesisService {
     List<ThesisRequestDTO> getTheses();
 
-    List<ThesisRequestDTO> getThesesNullCouncil();
+    List<ThesisRequestDTO> getThesesByCouncilId(Integer id);
+//    List<Thesis> getTheses();
+
+//    List<ThesisRequestDTO> getThesesNullCouncil();
 
     ThesisRequestDTO createdThesis(ThesisCreationDTO thesisCreationDTO);
 

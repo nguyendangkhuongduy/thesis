@@ -1,6 +1,7 @@
 package com.duy.thesisManagement.thesis.repository;
 
 import com.duy.thesisManagement.thesis.dto.UserDTO;
+import com.duy.thesisManagement.thesis.model.AppRole;
 import com.duy.thesisManagement.thesis.model.User;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 //		@Query("SELECT c FROM User c WHERE c.roles = ROLE_ASSOCIATE")
 //		List<User> findAllByRoles();
+
+		List<User> findByRoles_Name(AppRole roleName);
 }

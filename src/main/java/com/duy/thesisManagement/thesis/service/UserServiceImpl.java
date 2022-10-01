@@ -134,7 +134,14 @@ public class UserServiceImpl implements UserService {
 				throw new ResourceNotFoundException("Cannot find any user for changing password action with id: " + id);
 		}
 
-//	@Override
+		@Override
+		public List<UserDTO> getUsersByRoleName(AppRole roleName) {
+				List<User> users = this.userRepository.findByRoles_Name(roleName);
+
+				return users.stream().map(this::toUserDTO).collect(Collectors.toList());
+		}
+
+		//	@Override
 //	public List<UserDTO> getAllAssociate() {
 //		List<User> users = userRepository.findAllByRoles();
 //		List<UserDTO> result = users.stream().map(this::toUserDTO).collect(Collectors.toList());

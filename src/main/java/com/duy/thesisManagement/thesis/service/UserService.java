@@ -3,6 +3,7 @@ package com.duy.thesisManagement.thesis.service;
 import com.duy.thesisManagement.thesis.dto.UserCreationDTO;
 import com.duy.thesisManagement.thesis.dto.UserDTO;
 import com.duy.thesisManagement.thesis.dto.UserUpdatingDTO;
+import com.duy.thesisManagement.thesis.model.AppRole;
 import com.duy.thesisManagement.thesis.model.User;
 
 import java.util.List;
@@ -24,4 +25,5 @@ public interface UserService {
 		void changePassword(Integer id, String newPassword);
 
 //		List<UserDTO> getAllAssociate();
+		List<UserDTO> getUsersByRoleName(AppRole roleName);
 }

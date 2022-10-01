@@ -27,9 +27,6 @@ public class ScoreDetail {
     @ManyToOne(fetch = FetchType.EAGER)
     private Criteria criteria;
 
-//    @JoinColumn(name = "criteria_id")
-//    private Criteria criteria;
-
     @NotBlank
     private float mark;
 

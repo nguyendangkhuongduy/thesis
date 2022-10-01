@@ -1,6 +1,7 @@
 package com.duy.thesisManagement.thesis.model;
 
 
+import java.util.HashSet;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "position")
+@Table(name = "`position`")
 public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +23,5 @@ public class Position {
     @NotBlank
     private String name;
 
-    @NotBlank
     private boolean active;
-
-
-    @OneToMany(mappedBy = "positionId")
-    private Set<CouncilPosition> councilPositionSet;
 }

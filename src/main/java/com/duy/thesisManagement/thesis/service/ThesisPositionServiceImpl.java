@@ -3,7 +3,6 @@ package com.duy.thesisManagement.thesis.service;
 import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
 import com.duy.thesisManagement.thesis.model.*;
-import com.duy.thesisManagement.thesis.repository.PositionForThesisRepository;
 import com.duy.thesisManagement.thesis.repository.ThesisPositionRepository;
 import com.duy.thesisManagement.thesis.repository.ThesisRepository;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,11 +22,7 @@ public class ThesisPositionServiceImpl implements ThesisPositionService{
 
     private final ThesisPositionRepository thesisPositionRepository;
 
-    private final PositionForThesisService positionForThesisService;
-
     private final ThesisRepository thesisRepository;
-
-
 
     @Override
     public List<ThesisPositionDTO> getThesisPositionByThesisId(Integer id) {
@@ -67,30 +61,26 @@ public class ThesisPositionServiceImpl implements ThesisPositionService{
     private ThesisPosition toThesisPosition(ThesisPositionCreationDTO thesisPositionCreationDTO) {
         User user = null;
         Thesis thesis = null;
-        PositionForThesis thesisP = null;
         if (Objects.nonNull(thesisPositionCreationDTO.getUserId())) {
             user = this.userService.getUserByID(thesisPositionCreationDTO.getUserId());
         }
         if (Objects.nonNull(thesisPositionCreationDTO.getThesisId())) {
             thesis = this.thesisService.getThesisByID(thesisPositionCreationDTO.getUserId());
         }
-        if (Objects.nonNull(thesisPositionCreationDTO.getThesisPosition())) {
-            thesisP = this.positionForThesisService.findById(thesisPositionCreationDTO.getThesisPosition());
-        }
 
-        ThesisPosition thesisPosition1 = ThesisPosition.builder()
+        ThesisPosition thesisPosition = ThesisPosition.builder()
                 .userId(user)
                 .thesisId(thesis)
-                .thesisPosition(thesisP)
+                .name(thesisPositionCreationDTO.getName())
                 .build();
-        return thesisPosition1;
+        return thesisPosition;
     }
 
     private ThesisPositionDTO toThesisPositionDTO(ThesisPosition thesisPosition) {
         ThesisPositionDTO thesisPositionDTO = ThesisPositionDTO.builder()
                 .id(thesisPosition.getId())
                 .userId(thesisPosition.getUserId().getId())
-                .thesisPosition(thesisPosition.getThesisPosition().getId())
+                .name(thesisPosition.getName())
                 .thesisId(thesisPosition.getThesisId().getId())
                 .build();
         return thesisPositionDTO;

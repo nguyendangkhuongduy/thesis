@@ -4,6 +4,7 @@ import com.duy.thesisManagement.thesis.dto.PasswordChangingDTO;
 import com.duy.thesisManagement.thesis.dto.UserCreationDTO;
 import com.duy.thesisManagement.thesis.dto.UserDTO;
 import com.duy.thesisManagement.thesis.dto.UserUpdatingDTO;
+import com.duy.thesisManagement.thesis.model.AppRole;
 import com.duy.thesisManagement.thesis.model.UsersResponse;
 import com.duy.thesisManagement.thesis.repository.RoleRepository;
 import com.duy.thesisManagement.thesis.service.UserService;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -67,6 +70,14 @@ public class UserController {
         UsersResponse response = new UsersResponse();
         response.setUsers(users);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("actions/getUnAssignedStudents")
+    public ResponseEntity<UsersResponse> getStudentNotBelongToAnyThesis() {
+        List<UserDTO> users = this.userService.getUsersByRoleName(AppRole.ROLE_STUDENT);
+        UsersResponse usersResponse = new UsersResponse();
+        usersResponse.setUsers(users);
+        return ResponseEntity.ok(usersResponse);
     }
 
     @GetMapping(path = "/{id}" ,produces = {MediaType.APPLICATION_JSON_VALUE})

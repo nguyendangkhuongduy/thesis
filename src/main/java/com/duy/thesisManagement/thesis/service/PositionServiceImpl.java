@@ -23,7 +23,7 @@ public class PositionServiceImpl implements PositionService{
 
     @Override
     public List<PositionDTO> getAllPosition() {
-        List<Position> position = positionRepository.findAll();
+        List<Position> position = positionRepository.findByActive(true);
         List<PositionDTO> result = position.stream().map(this::toPositionDTO).collect(Collectors.toList());
         return result;
     }

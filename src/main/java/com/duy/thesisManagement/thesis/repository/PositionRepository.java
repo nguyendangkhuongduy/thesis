@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public interface PositionRepository extends JpaRepository<Position, Integer> {
 
-    @Query("SELECT c FROM Position c WHERE c.active = true")
-    List<Position> findByActiveTrue();
+    List<Position> findByActive(boolean active);
 
 }

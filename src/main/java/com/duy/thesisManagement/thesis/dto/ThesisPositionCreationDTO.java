@@ -10,7 +10,7 @@ import lombok.Setter;
 @Builder
 public class ThesisPositionCreationDTO {
     private Integer userId;
-    private Integer thesisPosition;
+    private String name;
     private Integer thesisId;
 }
 

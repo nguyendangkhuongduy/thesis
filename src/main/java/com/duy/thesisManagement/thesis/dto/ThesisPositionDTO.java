@@ -13,6 +13,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 public class ThesisPositionDTO {
     private Integer id;
     private Integer userId;
-    private Integer thesisPosition;
+    private String name;
     private Integer thesisId;
 }

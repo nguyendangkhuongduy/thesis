@@ -22,8 +22,4 @@ public class Criteria {
     private String name;
     @NotBlank
     private boolean active;
-
-    @JoinColumn(name = "scoreDetail_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private ScoreDetail scoreDetail;
 }

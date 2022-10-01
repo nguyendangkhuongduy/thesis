@@ -18,12 +18,12 @@ public class ThesisPosition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @JoinColumn(name = "thesis_position", referencedColumnName = "id")
-    @ManyToOne
-    private PositionForThesis thesisPosition;
+    private String name;
+
     @JoinColumn(name = "thesis_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Thesis thesisId;
+
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;

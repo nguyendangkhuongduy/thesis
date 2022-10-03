@@ -5,6 +5,7 @@ import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
 import com.duy.thesisManagement.thesis.model.*;
 import com.duy.thesisManagement.thesis.repository.ThesisPositionRepository;
 import com.duy.thesisManagement.thesis.repository.ThesisRepository;
+import com.duy.thesisManagement.thesis.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 public class ThesisPositionServiceImpl implements ThesisPositionService{
 
     private final UserService userService;
+
+    private final UserRepository userRepository;
     private final ThesisService thesisService;
 
     private final ThesisPositionRepository thesisPositionRepository;
@@ -59,18 +62,20 @@ public class ThesisPositionServiceImpl implements ThesisPositionService{
     }
 
     private ThesisPosition toThesisPosition(ThesisPositionCreationDTO thesisPositionCreationDTO) {
-        User user = null;
-        Thesis thesis = null;
+        Optional<User> user = null;
+        Optional<Thesis> thesis = null;
         if (Objects.nonNull(thesisPositionCreationDTO.getUserId())) {
-            user = this.userService.getUserByID(thesisPositionCreationDTO.getUserId());
+//            user = this.userService.getUserByID(thesisPositionCreationDTO.getUserId());
+            user = this.userRepository.findById(thesisPositionCreationDTO.getUserId());
         }
         if (Objects.nonNull(thesisPositionCreationDTO.getThesisId())) {
-            thesis = this.thesisService.getThesisByID(thesisPositionCreationDTO.getUserId());
+//            thesis = this.thesisService.getThesisByID(thesisPositionCreationDTO.getUserId());
+            thesis = this.thesisRepository.findById(thesisPositionCreationDTO.getThesisId());
         }
 
         ThesisPosition thesisPosition = ThesisPosition.builder()
-                .userId(user)
-                .thesisId(thesis)
+                .userId(user.get())
+                .thesisId(thesis.get())
                 .name(thesisPositionCreationDTO.getName())
                 .build();
         return thesisPosition;

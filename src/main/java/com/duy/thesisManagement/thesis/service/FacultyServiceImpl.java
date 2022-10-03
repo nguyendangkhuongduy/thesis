@@ -42,6 +42,7 @@ public class FacultyServiceImpl implements FacultyService {
     public FacultyRequestDTO createdFaculty(FacultyUpdatingDTO facultyUpdatingDTO) {
         this.validateNewFaculty(facultyUpdatingDTO);
         Faculty faculty = this.toFaculty(facultyUpdatingDTO);
+        faculty.setActive(true);
         Faculty savedFaculty = this.facultyRepository.save(faculty);
         return toFacultyRequestDTO(savedFaculty);
     }

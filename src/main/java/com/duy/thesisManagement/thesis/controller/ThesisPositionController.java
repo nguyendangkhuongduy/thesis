@@ -1,9 +1,7 @@
 package com.duy.thesisManagement.thesis.controller;
 
 
-import com.duy.thesisManagement.thesis.dto.CouncilPositionDTO;
-import com.duy.thesisManagement.thesis.dto.ThesisPositionDTO;
-import com.duy.thesisManagement.thesis.dto.UserDTO;
+import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.model.CouncilPositionResponse;
 import com.duy.thesisManagement.thesis.model.ThesisPositionResponse;
 import com.duy.thesisManagement.thesis.model.UsersResponse;
@@ -18,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -62,6 +61,12 @@ public class ThesisPositionController {
         ThesisPositionResponse response = new ThesisPositionResponse();
         response.setThesisPosition(thesisPositionDTO);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<ThesisPositionDTO> createThesisPosition(@Valid @RequestBody ThesisPositionCreationDTO thesisPositionCreationDTO) {
+        ThesisPositionDTO create = this.thesisPositionService.createThesisPosition(thesisPositionCreationDTO);
+        return ResponseEntity.ok(create);
     }
 
     @DeleteMapping("/{id}")

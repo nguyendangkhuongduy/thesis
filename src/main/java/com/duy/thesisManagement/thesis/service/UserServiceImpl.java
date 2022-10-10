@@ -11,11 +11,7 @@ import com.duy.thesisManagement.thesis.model.Role;
 import com.duy.thesisManagement.thesis.model.User;
 import com.duy.thesisManagement.thesis.repository.UserRepository;
 import java.text.MessageFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -92,6 +88,7 @@ public class UserServiceImpl implements UserService {
 							updatingUser.setFullName(userUpdatingDTO.getFullName());
 							updatingUser.setGender(userUpdatingDTO.getGender());
 							updatingUser.setPhone(userUpdatingDTO.getPhone());
+							updatingUser.setUsername(userUpdatingDTO.getUsername());
 
 							Set<Role> roles = this.getExistingRoles(userUpdatingDTO.getRoles());
 							updatingUser.setRoles(roles);
@@ -137,8 +134,14 @@ public class UserServiceImpl implements UserService {
 		@Override
 		public List<UserDTO> getUsersByRoleName(AppRole roleName) {
 				List<User> users = this.userRepository.findByRoles_Name(roleName);
-
-				return users.stream().map(this::toUserDTO).collect(Collectors.toList());
+				List<User> u = new ArrayList<User>();
+			for (int i = 0; i < users.size(); i++) {
+				User o = users.get(i);
+				if(o.isActive() == true){
+					u.add(o);
+				}
+			}
+				return u.stream().map(this::toUserDTO).collect(Collectors.toList());
 		}
 
 		//	@Override

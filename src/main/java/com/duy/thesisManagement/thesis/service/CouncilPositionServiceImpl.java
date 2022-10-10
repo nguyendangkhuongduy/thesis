@@ -4,6 +4,7 @@ import com.duy.thesisManagement.thesis.dto.CouncilPositionCreationDTO;
 import com.duy.thesisManagement.thesis.dto.CouncilPositionDTO;
 import com.duy.thesisManagement.thesis.dto.CouncilPositionUpdatingDTO;
 import com.duy.thesisManagement.thesis.exception.BadRequestException;
+import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
 import com.duy.thesisManagement.thesis.model.Council;
 import com.duy.thesisManagement.thesis.model.CouncilPosition;
 import com.duy.thesisManagement.thesis.model.Position;
@@ -188,6 +189,17 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
         Optional<Council> council = councilRepository.findById(id);
         Long result = this.councilPositionRepository.countMemberByCouncilId(council.get());
         return result;
+    }
+
+    @Override
+    public void deleteCouncilPosition(Integer id) {
+        Optional<CouncilPosition> councilPositionOpt = this.councilPositionRepository.findById(id);
+        if (councilPositionOpt.isPresent()) {
+            CouncilPosition deleted = councilPositionOpt.get();
+            this.councilPositionRepository.delete(deleted);
+            return;
+        }
+        throw new ResourceNotFoundException("Cannot find any Council Position for deleting action with id: " + id);
     }
 
     private CouncilPositionDTO toCouncilPositionDTO(CouncilPosition councilPosition) {

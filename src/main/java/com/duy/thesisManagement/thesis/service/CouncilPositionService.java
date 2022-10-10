@@ -32,4 +32,6 @@ public interface CouncilPositionService {
 
     Long countMemberByCouncilId(Integer id);
 
+    void deleteCouncilPosition(Integer id);
+
 }

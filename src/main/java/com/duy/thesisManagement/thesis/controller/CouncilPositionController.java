@@ -23,7 +23,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/academic")
+@RequestMapping()
 public class CouncilPositionController {
 
     private final CouncilPositionService councilPositionService;
@@ -129,5 +129,11 @@ public class CouncilPositionController {
                                               @Valid @RequestBody CouncilPositionUpdatingDTO councilPositionUpdatingDTO) {
         CouncilPositionDTO councilPosition = this.councilPositionService.updatedCouncilPosition(id, councilPositionUpdatingDTO);
         return ResponseEntity.ok(councilPosition);
+    }
+
+    @DeleteMapping("/councilPosition/{id}")
+    public ResponseEntity<String> DeleteCouncilPosition(@PathVariable(value = "id") Integer id ) {
+        this.councilPositionService.deleteCouncilPosition(id);
+        return ResponseEntity.ok("Successfully delete Council Position");
     }
 }

@@ -1,12 +1,14 @@
 package com.duy.thesisManagement.thesis.dto;
 
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-public class ScoreDetailRequestDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ScoreDetailDTO {
+    private Integer id;
     private Integer criteria_id;
     private Integer score_id;
     private Float mark;

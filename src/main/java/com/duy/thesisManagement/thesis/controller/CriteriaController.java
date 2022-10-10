@@ -1,7 +1,6 @@
 package com.duy.thesisManagement.thesis.controller;
 
-import com.duy.thesisManagement.thesis.dto.CriteriaCreationDTO;
-import com.duy.thesisManagement.thesis.dto.CriteriaDTO;
+import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.model.CriteriaResponse;
 import com.duy.thesisManagement.thesis.service.CriteriaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,6 +43,13 @@ public class CriteriaController {
     public ResponseEntity<CriteriaDTO> createCriteria(@Valid @RequestBody CriteriaCreationDTO criteriaCreationDTO) {
         CriteriaDTO create = this.criteriaService.createCriteria(criteriaCreationDTO);
         return ResponseEntity.ok(create);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CriteriaDTO> UpdateCriteria(@PathVariable(value = "id") Integer id,
+                                                      @Valid @RequestBody CriteriaUpdatingDTO criteriaUpdatingDTO) {
+        CriteriaDTO criteria = this.criteriaService.updateCriteria(id, criteriaUpdatingDTO);
+        return ResponseEntity.ok(criteria);
     }
 
     @DeleteMapping("/{id}")

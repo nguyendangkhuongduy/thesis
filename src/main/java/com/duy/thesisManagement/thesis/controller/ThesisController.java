@@ -101,6 +101,24 @@ public class ThesisController {
         return ResponseEntity.ok(response);
     }
 
+//    @GetMapping(path = "/thesis/thesisByUserId/{userId}",produces = {MediaType.APPLICATION_JSON_VALUE})
+//    @Operation(
+//            description = "get dedicated thesis by id",
+//            security = @SecurityRequirement(name = "Bearer Authentication"),
+//            responses = {
+//                    @ApiResponse(responseCode = "200", description = "Success fetching thesis by id",
+//                            content = @Content(schema = @Schema(implementation = ThesisRequestDTO.class))),
+//                    @ApiResponse(responseCode = "401", description = "Authentication error"),
+//                    @ApiResponse(responseCode = "404", description = "Cannot find any thesis")
+//            }
+//    )
+//    public ResponseEntity<ThesisResponse> getThesisByUserId(@PathVariable(value = "userId") Integer userId){
+//        List<ThesisRequestDTO> thesis = thesisService.getThesisByUserId(userId);
+//        ThesisResponse response = new ThesisResponse();
+//        response.setTheses(thesis);
+//        return ResponseEntity.ok(response);
+//    }
+
     @GetMapping(path = "/thesis/count/{id}")
     public ResponseEntity<?> countThesis(@PathVariable(value = "id") Integer id){
         Long count = this.thesisService.countThesisByCouncilId(id);
@@ -133,6 +151,12 @@ public class ThesisController {
                                                        @Valid @RequestBody ThesisAddTotalScoreDTO thesisAddCouncilDTO) {
         ThesisRequestDTO thesis = this.thesisService.addTotalScore(id, thesisAddCouncilDTO);
         return ResponseEntity.ok(thesis);
+    }
+
+    @PutMapping(path = "/thesis/{id}/removeCouncil")
+    public ResponseEntity<String> addTotalScore(@PathVariable(value = "id") Integer id ) {
+        this.thesisService.removeCouncil(id);
+        return ResponseEntity.ok("Successfully remove council");
     }
 
     @DeleteMapping("/thesis/{id}")

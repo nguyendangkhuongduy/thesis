@@ -3,6 +3,7 @@ package com.duy.thesisManagement.thesis.service;
 
 import com.duy.thesisManagement.thesis.dto.CriteriaCreationDTO;
 import com.duy.thesisManagement.thesis.dto.CriteriaDTO;
+import com.duy.thesisManagement.thesis.dto.CriteriaUpdatingDTO;
 import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
 import com.duy.thesisManagement.thesis.model.*;
 import com.duy.thesisManagement.thesis.repository.CriteriaRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +35,19 @@ public class CriteriaServiceImpl  implements CriteriaService{
         criteria.setActive(true);
         Criteria saved = this.criteriaRepository.save(criteria);
         return toCriteriaDTO(saved);
+    }
+
+    @Override
+    public CriteriaDTO updateCriteria(Integer id,CriteriaUpdatingDTO criteriaUpdatingDTO) {
+        Optional<Criteria> foundCriteria = this.criteriaRepository.findById(id);
+        if (foundCriteria.isPresent()) {
+            Criteria update = foundCriteria.get();
+            update.setName(criteriaUpdatingDTO.getName());
+
+            Criteria saved = this.criteriaRepository.save(update);
+            return this.toCriteriaDTO(saved);
+        }
+        throw new ResourceNotFoundException("Cannot find any Criteria for Update action with id: " + id);
     }
 
     @Override

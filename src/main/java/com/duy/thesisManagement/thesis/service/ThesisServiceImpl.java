@@ -5,12 +5,16 @@ import com.duy.thesisManagement.thesis.exception.BadRequestException;
 import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
 import com.duy.thesisManagement.thesis.model.*;
 import com.duy.thesisManagement.thesis.repository.CouncilRepository;
+import com.duy.thesisManagement.thesis.repository.ThesisPositionRepository;
 import com.duy.thesisManagement.thesis.repository.ThesisRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.duy.thesisManagement.thesis.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,12 @@ import org.springframework.stereotype.Service;
 public class ThesisServiceImpl implements ThesisService {
 
     private final FacultyService facultyService;
+
+    private final UserRepository userRepository;
+
+    private final ThesisPositionRepository thesisPositionRepository;
+
+    private final ThesisService thesisService;
 
     private final CouncilRepository councilRepository;
 
@@ -36,6 +46,11 @@ public class ThesisServiceImpl implements ThesisService {
         List<ThesisRequestDTO> result = theses.stream().map(this::toThesisDTO).collect(Collectors.toList());
         return result;
     }
+
+//    @Override
+//    public List<Thesis> getThesis() {
+//
+//    }
 
     @Override
     public List<ThesisRequestDTO> getThesesByCouncilId(Integer id) {
@@ -100,6 +115,18 @@ public class ThesisServiceImpl implements ThesisService {
     }
 
     @Override
+    public void removeCouncil(Integer id) {
+        Optional<Thesis> thesis = thesisRepository.findById(id);
+        if (thesis.isPresent()) {
+            Thesis a = thesis.get();
+            a.setCouncilId(null);
+            thesisRepository.save(a);
+            return;
+        }
+        throw new ResourceNotFoundException("Cannot remove council");
+    }
+
+    @Override
     public ThesisRequestDTO updateThesis(Integer id, ThesisUpdatingDTO thesisUpdatingDTO) {
         Optional<Thesis> foundThesis = this.thesisRepository.findById(id);
         Faculty faculty = null;
@@ -158,6 +185,22 @@ public class ThesisServiceImpl implements ThesisService {
         throw new ResourceNotFoundException("Cannot find any thesis for Add score action with id: " + id);
     }
 
+//    @Override
+//    public List<ThesisRequestDTO> getThesisByUserId(Integer id) {
+//        Optional<User> user = userRepository.findById(id);
+//        List<ThesisPosition> thesisPositions = thesisPositionRepository.findByUserId(user.get());
+//        List<Thesis> getAll = thesisRepository.findByActiveTrue();
+//        List<Thesis> thesis = new ArrayList<Thesis>();
+//        for (int i = 0; i < thesisPositions.size(); i++) {
+//            ThesisPosition t = thesisPositions.get(i);
+//            if (t.getThesisId().getId() == getAll.get(i).getId()) {
+//                thesis.add(getAll.get(i));
+//            }
+//        }
+//        List<ThesisRequestDTO> result = thesis.stream().map(this::toThesisDTO).collect(Collectors.toList());
+//        return result;
+//}
+
 
     private ThesisRequestDTO toThesisDTO(Thesis thesis) {
         ThesisRequestDTO thesisDTO = ThesisRequestDTO.builder()
@@ -166,10 +209,10 @@ public class ThesisServiceImpl implements ThesisService {
                 .active(thesis.isActive())
                 .createdDate(thesis.getCreatedDate())
                 .totalScore(thesis.getTotalScore())
-                .facultyId(thesis.getFaculty().getId())
+                .faculty(thesis.getFaculty().getName())
                 .build();
         if (Objects.nonNull(thesis.getCouncilId())) {
-            thesisDTO.setCouncilId(thesis.getCouncilId().getId());
+            thesisDTO.setCouncil(thesis.getCouncilId().getName());
         }
         return thesisDTO;
     }

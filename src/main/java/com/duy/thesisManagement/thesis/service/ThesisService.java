@@ -21,6 +21,8 @@ public interface ThesisService {
 
     void deleteThesis(Integer id);
 
+    void removeCouncil(Integer id);
+
     ThesisRequestDTO updateThesis(Integer id, ThesisUpdatingDTO thesisUpdatingDTO);
 
     Long countThesisByCouncilId(Integer id);
@@ -29,6 +31,8 @@ public interface ThesisService {
 
     ThesisRequestDTO addTotalScore(Integer id, ThesisAddTotalScoreDTO thesisAddTotalScoreDTO);
 
+
+//    List<ThesisRequestDTO> getThesisByUserId(Integer id);
 
 
 }

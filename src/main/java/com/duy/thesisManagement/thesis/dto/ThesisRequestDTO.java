@@ -13,8 +13,8 @@ import java.util.Date;
 public class ThesisRequestDTO {
     private Integer id;
     private String name;
-    private Integer councilId;
-    private Integer facultyId;
+    private String council;
+    private String faculty;
     private boolean active;
     private Date createdDate;
     private float totalScore;

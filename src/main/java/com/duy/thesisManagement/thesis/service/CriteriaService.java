@@ -10,5 +10,7 @@ public interface CriteriaService {
 
     CriteriaDTO createCriteria(CriteriaCreationDTO criteriaCreationDTO);
 
+    CriteriaDTO updateCriteria(Integer id, CriteriaUpdatingDTO criteriaUpdatingDTO);
+
     void deleteCriteria(Integer id);
 }

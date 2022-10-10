@@ -96,7 +96,7 @@ public class CouncilCoreServiceImpl implements CouncilCoreService {
                 .id(council.getId())
                 .active(council.isActive())
                 .createdDate(council.getCreatedDate())
-                .facultyId(council.getFaculty().getId())
+                .faculty(council.getFaculty().getName())
                 .name(council.getName())
                 .build();
         return councilDTO;

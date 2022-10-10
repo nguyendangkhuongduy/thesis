@@ -23,8 +23,6 @@ import java.util.stream.Collectors;
 public class ScoreServiceImpl implements ScoreService{
 
     private final ScoreRepository scoreRepository;
-
-
     private final CouncilPositionRepository councilPositionRepository;
 
     private final ThesisService thesisService;

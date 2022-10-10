@@ -27,4 +27,5 @@ public interface ThesisRepository extends JpaRepository<Thesis, Integer> {
     @Query("SELECT c FROM Thesis c WHERE c.councilId=:council")
     public List<Thesis> getByCouncilId(Council council);
 
+
 }

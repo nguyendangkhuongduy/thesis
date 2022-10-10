@@ -14,5 +14,5 @@ public class CouncilDTO {
     private Boolean active;
     private Date createdDate;
     private String name;
-    private Integer facultyId;
+    private String faculty;
 }

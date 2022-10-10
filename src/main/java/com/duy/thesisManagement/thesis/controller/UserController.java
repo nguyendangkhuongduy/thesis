@@ -72,9 +72,17 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("actions/getUnAssignedStudents")
-    public ResponseEntity<UsersResponse> getStudentNotBelongToAnyThesis() {
+    @GetMapping("actions/getStudents")
+    public ResponseEntity<UsersResponse> getStudent() {
         List<UserDTO> users = this.userService.getUsersByRoleName(AppRole.ROLE_STUDENT);
+        UsersResponse usersResponse = new UsersResponse();
+        usersResponse.setUsers(users);
+        return ResponseEntity.ok(usersResponse);
+    }
+
+    @GetMapping("actions/getAssociate")
+    public ResponseEntity<UsersResponse> getAssociate() {
+        List<UserDTO> users = this.userService.getUsersByRoleName(AppRole.ROLE_ASSOCIATE);
         UsersResponse usersResponse = new UsersResponse();
         usersResponse.setUsers(users);
         return ResponseEntity.ok(usersResponse);

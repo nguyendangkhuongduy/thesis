@@ -20,4 +20,6 @@ public class JwtResponse {
 		private String phone;
 		private Integer facultyId;
 		private List<String> roles;
+		private String avatar;
+		private Boolean active;
 }

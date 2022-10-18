@@ -63,23 +63,23 @@ public class ThesisPositionController {
         return ResponseEntity.ok(response);
     }
 
-//    @GetMapping(path = "/{id}" ,produces = {MediaType.APPLICATION_JSON_VALUE})
-//    @Operation(
-//            description = "get dedicated thesis position by thesis id",
-//            security = @SecurityRequirement(name = "Bearer Authentication"),
-//            responses = {
-//                    @ApiResponse(responseCode = "200", description = "Success fetching thesis position by thesis id",
-//                            content = @Content(schema = @Schema(implementation = ThesisPositionDTO.class))),
-//                    @ApiResponse(responseCode = "401", description = "Authentication error"),
-//                    @ApiResponse(responseCode = "404", description = "Cannot find any Id")
-//            }
-//    )
-//    public ResponseEntity<ThesisPositionResponse> getThesisPositionByUserId(@PathVariable(value = "id") Integer id) {
-//        List<ThesisPositionDTO> thesisPositionDTO = thesisPositionService.getThesisPositionByUserId(id);
-//        ThesisPositionResponse response = new ThesisPositionResponse();
-//        response.setThesisPosition(thesisPositionDTO);
-//        return ResponseEntity.ok(response);
-//    }
+    @GetMapping(path = "/action/getByUser/{id}" ,produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(
+            description = "get dedicated thesis position by thesis id",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching thesis position by thesis id",
+                            content = @Content(schema = @Schema(implementation = ThesisPositionDTO.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error"),
+                    @ApiResponse(responseCode = "404", description = "Cannot find any Id")
+            }
+    )
+    public ResponseEntity<ThesisPositionResponse> getThesisPositionByUserId(@PathVariable(value = "id") Integer id) {
+        List<ThesisPositionDTO> thesisPositionDTO = thesisPositionService.getThesisPositionByUserId(id);
+        ThesisPositionResponse response = new ThesisPositionResponse();
+        response.setThesisPosition(thesisPositionDTO);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping
     public ResponseEntity<ThesisPositionDTO> createThesisPosition(@Valid @RequestBody ThesisPositionCreationDTO thesisPositionCreationDTO) {

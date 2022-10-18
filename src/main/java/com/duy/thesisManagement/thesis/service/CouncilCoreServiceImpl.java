@@ -4,7 +4,9 @@ import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.exception.BadRequestException;
 import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
 import com.duy.thesisManagement.thesis.model.*;
+import com.duy.thesisManagement.thesis.repository.CouncilPositionRepository;
 import com.duy.thesisManagement.thesis.repository.CouncilRepository;
+import com.duy.thesisManagement.thesis.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,15 @@ import java.util.stream.Collectors;
 public class CouncilCoreServiceImpl implements CouncilCoreService {
 
     private final CouncilRepository councilRepository;
+
+    private final CouncilPositionRepository councilPositionRepository;
     private final FacultyService facultyService;
+
+    private final UserRepository userRepository;
 
     @Override
     public List<CouncilDTO> getAllCouncils() {
-        List<Council> councils = councilRepository.findByActiveTrue();
+        List<Council> councils = councilRepository.findAll();
         List<CouncilDTO> result = councils.stream().map(this::toCouncilDTO).collect(Collectors.toList());
         return result;
     }
@@ -100,6 +106,25 @@ public class CouncilCoreServiceImpl implements CouncilCoreService {
                 .name(council.getName())
                 .build();
         return councilDTO;
+    }
+
+    @Override
+    public List<CouncilDTO> getCouncilByUserId(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+        List<CouncilPosition> councilPositions = councilPositionRepository.getByUserId(user.get());
+        List<Council> getAll = councilRepository.findAll();
+        List<Council> councils = new ArrayList<>();
+        for (int i = 0; i < getAll.size(); i++) {
+            for(int j = 0; j < councilPositions.size(); j++)
+            {
+                CouncilPosition t = councilPositions.get(j);
+                if (t.getCouncilId().getId() == getAll.get(i).getId()) {
+                    councils.add(getAll.get(i));
+                }
+            }
+        }
+        List<CouncilDTO> result = councils.stream().map(this::toCouncilDTO).collect(Collectors.toList());
+        return result;
     }
 
 //    @Override

@@ -8,6 +8,7 @@ import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
 import com.duy.thesisManagement.thesis.model.*;
 import com.duy.thesisManagement.thesis.repository.CouncilPositionRepository;
 import com.duy.thesisManagement.thesis.repository.ScoreRepository;
+import com.duy.thesisManagement.thesis.repository.ThesisRepository;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Literal;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 public class ScoreServiceImpl implements ScoreService{
 
     private final ScoreRepository scoreRepository;
+
+    private final ThesisRepository thesisRepository;
     private final CouncilPositionRepository councilPositionRepository;
 
     private final ThesisService thesisService;
@@ -56,6 +59,14 @@ public class ScoreServiceImpl implements ScoreService{
     @Override
     public List<ScoreDTO> getScores() {
         List<Score> scores = scoreRepository.findByActiveTrue();
+        List<ScoreDTO> result = scores.stream().map(this::toScoreDTO).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public List<ScoreDTO> getScoreByThesisId(Integer id) {
+        Optional<Thesis> thesis = thesisRepository.findById(id);
+        List<Score> scores = scoreRepository.findByThesisId(thesis.get());
         List<ScoreDTO> result = scores.stream().map(this::toScoreDTO).collect(Collectors.toList());
         return result;
     }

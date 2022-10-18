@@ -15,5 +15,5 @@ public interface ThesisPositionRepository extends JpaRepository<ThesisPosition, 
 
     List<ThesisPosition> findByThesisId(Thesis id);
 
-//    List<ThesisPosition> findByUserId(User id);
+    List<ThesisPosition> findByUserId(User id);
 }

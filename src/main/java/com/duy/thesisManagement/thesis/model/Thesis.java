@@ -38,6 +38,8 @@ public class Thesis {
     @Column(name = "total_score")
     private float totalScore;
 
+    private String file;
+
     @JoinColumn(name = "council_id")
     @ManyToOne
     private Council councilId;

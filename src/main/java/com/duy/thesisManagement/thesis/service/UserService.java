@@ -1,5 +1,6 @@
 package com.duy.thesisManagement.thesis.service;
 
+import com.duy.thesisManagement.thesis.dto.PutAvatarDTO;
 import com.duy.thesisManagement.thesis.dto.UserCreationDTO;
 import com.duy.thesisManagement.thesis.dto.UserDTO;
 import com.duy.thesisManagement.thesis.dto.UserUpdatingDTO;
@@ -23,6 +24,8 @@ public interface UserService {
 		void deleteUser(Integer id);
 
 		void changePassword(Integer id, String newPassword);
+
+		void putAvatar(Integer id, PutAvatarDTO putAvatarDTO);
 
 //		List<UserDTO> getAllAssociate();
 		List<UserDTO> getUsersByRoleName(AppRole roleName);

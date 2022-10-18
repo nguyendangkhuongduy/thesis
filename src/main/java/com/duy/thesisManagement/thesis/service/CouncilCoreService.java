@@ -28,5 +28,7 @@ public interface CouncilCoreService {
 
 //    List<CouncilPositionDTO> getByCouncilId(Integer id);
 
+    List<CouncilDTO> getCouncilByUserId(Integer id);
+
 
 }

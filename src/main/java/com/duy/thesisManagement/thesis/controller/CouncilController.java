@@ -3,6 +3,7 @@ package com.duy.thesisManagement.thesis.controller;
 
 import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.model.CouncilResponse;
+import com.duy.thesisManagement.thesis.model.ThesisResponse;
 import com.duy.thesisManagement.thesis.model.UsersResponse;
 import com.duy.thesisManagement.thesis.service.CouncilPositionService;
 import com.duy.thesisManagement.thesis.service.CouncilService;
@@ -43,6 +44,23 @@ public class CouncilController {
         List<CouncilDTO> councils = councilService.getAllCouncils();
         CouncilResponse response = new CouncilResponse();
         response.setCouncils(councils);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/council/action/getByUserId/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(
+            description = "get all councils by user id ",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching all councils",
+                            content = @Content(schema = @Schema(implementation = CouncilResponse.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error")
+            }
+    )
+    public ResponseEntity<CouncilResponse> getCouncilsByUserId(@PathVariable(value = "id") Integer id) {
+        List<CouncilDTO> council = councilService.getCouncilByUserId(id);
+        CouncilResponse response = new CouncilResponse();
+        response.setCouncils(council);
         return ResponseEntity.ok(response);
     }
 

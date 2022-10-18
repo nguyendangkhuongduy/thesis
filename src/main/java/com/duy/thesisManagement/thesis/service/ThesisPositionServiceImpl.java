@@ -37,21 +37,19 @@ public class ThesisPositionServiceImpl implements ThesisPositionService{
         return result;
     }
 
-//    @Override
-//    public List<ThesisPositionDTO> getThesisPositionByUserId(Integer id) {
-//        Optional<User> user = userRepository.findById(id);
-//        List<ThesisPosition> thesisPositions = thesisPositionRepository.findByUserId(user.get());
-//        List<ThesisRequestDTO> getAll = thesisService.getTheses();
-//        List<ThesisRequestDTO> thesis = new ArrayList<ThesisRequestDTO>();
-//        for (int i = 0; i < thesisPositions.size(); i++) {
+    @Override
+    public List<ThesisPositionDTO> getThesisPositionByUserId(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+        List<ThesisPosition> thesisPositions = thesisPositionRepository.findByUserId(user.get());
+        List<ThesisPosition> thesis = new ArrayList<ThesisPosition>();
+        for (int i = 0; i < thesisPositions.size(); i++) {
 //            ThesisPosition t = thesisPositions.get(i);
-//            if(t.getThesisId().getId() == getAll.get(i).getId()){
-//                thesis.add(getAll.get(i));
-//            }
-//            List<ThesisRequestDTO> result = thesis.stream()
-//                    .map(this::).collect(Collectors.toList());
-//            return result;
-//    }
+            thesis.add(thesisPositions.get(i));
+        }
+            List<ThesisPositionDTO> result = thesis.stream()
+                    .map(this::toThesisPositionDTO).collect(Collectors.toList());
+            return result;
+    }
 
     @Override
     public List<ThesisPositionDTO> getAllThesisPosition() {

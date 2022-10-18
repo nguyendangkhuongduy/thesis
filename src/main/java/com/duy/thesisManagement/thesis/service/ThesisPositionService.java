@@ -8,6 +8,8 @@ public interface ThesisPositionService {
 
     List<ThesisPositionDTO> getThesisPositionByThesisId(Integer id);
 
+    List<ThesisPositionDTO> getThesisPositionByUserId(Integer id);
+
     List<ThesisPositionDTO> getAllThesisPosition();
 
     ThesisPositionDTO createThesisPosition(ThesisPositionCreationDTO thesisPositionCreationDTO);

@@ -51,8 +51,14 @@ public class CouncilService {
         this.councilCoreService.deleteCouncil(id);
     }
 
+    public List<CouncilDTO> getCouncilByUserId(Integer id){
+        return this.councilCoreService.getCouncilByUserId(id);
+    }
+
 //    public List<CouncilPositionDTO> getByCouncilId(Integer id){
 //        return this.councilCoreService.getByCouncilId(id);
 //    }
+
+
 
 }

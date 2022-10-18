@@ -43,6 +43,23 @@ public class ScoreController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping(path = "/action/getByThesisId/{thesisId}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(
+            description = "get all score",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success fetching theses",
+                            content = @Content(schema = @Schema(implementation = ScoreDTO.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication error")
+            }
+    )
+    public ResponseEntity<ScoreResponse> getScoresByThesisId(@PathVariable(value = "thesisId") Integer thesisId) {
+        List<ScoreDTO> scores = scoreService.getScoreByThesisId(thesisId);
+        ScoreResponse response = new ScoreResponse();
+        response.setScore(scores);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping()
     public ResponseEntity<ScoreDTO> createScore(@Valid @RequestBody ScoreCreationDTO scoreCreationDTO) {
         ScoreDTO createdScore = this.scoreService.createdScore(scoreCreationDTO);

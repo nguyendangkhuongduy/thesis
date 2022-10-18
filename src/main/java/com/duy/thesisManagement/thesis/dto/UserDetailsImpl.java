@@ -23,10 +23,14 @@ public class UserDetailsImpl implements UserDetails {
 		private String gender;
 		private String phone;
 		private Integer facultyId;
+
+		private String avatar;
+
+		private boolean active;
 		private Collection<? extends GrantedAuthority> authorities;
 
 		public UserDetailsImpl(Integer id, String username, String email, String password, String fullName, String gender,
-				String phone, Integer facultyId, Collection<? extends GrantedAuthority> authorities) {
+				String phone, Integer facultyId,String avatar,Boolean active, Collection<? extends GrantedAuthority> authorities) {
 				this.id = id;
 				this.username = username;
 				this.email = email;
@@ -36,6 +40,8 @@ public class UserDetailsImpl implements UserDetails {
 				this.gender = gender;
 				this.phone = phone;
 				this.facultyId = facultyId;
+				this.setAvatar(avatar);
+				this.setActive(active);
 		}
 
 		public static UserDetailsImpl build(User user) {
@@ -51,6 +57,8 @@ public class UserDetailsImpl implements UserDetails {
 						user.getGender(),
 						user.getPhone(),
 						user.getFaculty().getId(),
+						user.getAvatar(),
+						user.isActive(),
 						authorities);
 		}
 
@@ -123,5 +131,21 @@ public class UserDetailsImpl implements UserDetails {
 
 	public Integer getFacultyId() {
 		return facultyId;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }

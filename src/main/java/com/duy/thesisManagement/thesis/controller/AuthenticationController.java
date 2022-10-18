@@ -56,7 +56,8 @@ public class AuthenticationController {
 						.collect(Collectors.toList());
 				JwtResponse jwtResponse = JwtResponse.builder().token(jwt).username(userDetails.getUsername())
 						.email(userDetails.getEmail()).roles(roles).id(userDetails.getId()).fullName(userDetails.getFullName())
-						.gender(userDetails.getGender()).phone(userDetails.getPhone()).facultyId(userDetails.getFacultyId())
+						.gender(userDetails.getGender()).phone(userDetails.getPhone())
+						.facultyId(userDetails.getFacultyId()).avatar(userDetails.getAvatar()).active(userDetails.isActive())
 						.build();
 				return ResponseEntity.ok(jwtResponse);
 		}

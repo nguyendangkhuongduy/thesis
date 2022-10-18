@@ -42,6 +42,9 @@ public class User {
 		private Integer id;
 		@NotBlank
 		private String username;
+
+		private String avatar;
+
 		@NotBlank
 		@Email
 		private String email;

@@ -13,4 +13,6 @@ public interface ScoreService {
     ScoreDTO updateScore(ScoreDTO scoreDTO);
 
     List<ScoreDTO> getScores();
+
+    List<ScoreDTO> getScoreByThesisId(Integer id);
 }

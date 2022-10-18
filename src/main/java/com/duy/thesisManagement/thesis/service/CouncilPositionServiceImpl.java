@@ -3,12 +3,10 @@ package com.duy.thesisManagement.thesis.service;
 import com.duy.thesisManagement.thesis.dto.CouncilPositionCreationDTO;
 import com.duy.thesisManagement.thesis.dto.CouncilPositionDTO;
 import com.duy.thesisManagement.thesis.dto.CouncilPositionUpdatingDTO;
+import com.duy.thesisManagement.thesis.dto.ThesisRequestDTO;
 import com.duy.thesisManagement.thesis.exception.BadRequestException;
 import com.duy.thesisManagement.thesis.exception.ResourceNotFoundException;
-import com.duy.thesisManagement.thesis.model.Council;
-import com.duy.thesisManagement.thesis.model.CouncilPosition;
-import com.duy.thesisManagement.thesis.model.Position;
-import com.duy.thesisManagement.thesis.model.User;
+import com.duy.thesisManagement.thesis.model.*;
 import com.duy.thesisManagement.thesis.repository.CouncilPositionRepository;
 import com.duy.thesisManagement.thesis.repository.CouncilRepository;
 import com.duy.thesisManagement.thesis.repository.UserRepository;
@@ -201,6 +199,7 @@ public class CouncilPositionServiceImpl implements CouncilPositionService{
         }
         throw new ResourceNotFoundException("Cannot find any Council Position for deleting action with id: " + id);
     }
+
 
     private CouncilPositionDTO toCouncilPositionDTO(CouncilPosition councilPosition) {
         CouncilPositionDTO positionRequestDTO = CouncilPositionDTO.builder()

@@ -21,6 +21,8 @@ public interface ThesisService {
 
     void deleteThesis(Integer id);
 
+    void putFile(Integer id, ThesisPutFileDTO thesisPutFileDTO);
+
     void removeCouncil(Integer id);
 
     ThesisRequestDTO updateThesis(Integer id, ThesisUpdatingDTO thesisUpdatingDTO);
@@ -32,7 +34,7 @@ public interface ThesisService {
     ThesisRequestDTO addTotalScore(Integer id, ThesisAddTotalScoreDTO thesisAddTotalScoreDTO);
 
 
-//    List<ThesisRequestDTO> getThesisByUserId(Integer id);
+    List<ThesisRequestDTO> getThesisByUserId(Integer id);
 
 
 }

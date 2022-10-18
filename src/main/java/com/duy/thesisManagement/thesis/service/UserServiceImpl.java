@@ -1,5 +1,6 @@
 package com.duy.thesisManagement.thesis.service;
 
+import com.duy.thesisManagement.thesis.dto.PutAvatarDTO;
 import com.duy.thesisManagement.thesis.dto.UserCreationDTO;
 import com.duy.thesisManagement.thesis.dto.UserDTO;
 import com.duy.thesisManagement.thesis.dto.UserUpdatingDTO;
@@ -131,7 +132,20 @@ public class UserServiceImpl implements UserService {
 				throw new ResourceNotFoundException("Cannot find any user for changing password action with id: " + id);
 		}
 
-		@Override
+	@Override
+	public void putAvatar(Integer id, PutAvatarDTO putAvatarDTO) {
+		Optional<User> userOpt = this.userRepository.findById(id);
+		if (userOpt.isPresent()) {
+			User user = userOpt.get();
+
+			user.setAvatar(putAvatarDTO.getAvt());
+			this.userRepository.save(user);
+			return;
+		}
+		throw new ResourceNotFoundException("Cannot find any user for put avt action with id: " + id);
+	}
+
+	@Override
 		public List<UserDTO> getUsersByRoleName(AppRole roleName) {
 				List<User> users = this.userRepository.findByRoles_Name(roleName);
 				List<User> u = new ArrayList<User>();
@@ -163,6 +177,7 @@ public class UserServiceImpl implements UserService {
 						.roles(user.getRoles().stream().map(Role::getName).map(AppRole::getName).collect(Collectors.toSet()))
 						.email(user.getEmail())
 						.faculty(user.getFaculty().getName())
+						.avatar(user.getAvatar())
 						.build();
 				return userDTO;
 		}

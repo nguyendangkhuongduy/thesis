@@ -18,4 +18,5 @@ public class ThesisRequestDTO {
     private boolean active;
     private Date createdDate;
     private float totalScore;
+    private String file;
 }

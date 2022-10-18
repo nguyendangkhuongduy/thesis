@@ -1,8 +1,6 @@
 package com.duy.thesisManagement.thesis.service;
 
-import com.duy.thesisManagement.thesis.dto.CouncilPositionCreationDTO;
-import com.duy.thesisManagement.thesis.dto.CouncilPositionDTO;
-import com.duy.thesisManagement.thesis.dto.CouncilPositionUpdatingDTO;
+import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.model.Council;
 import com.duy.thesisManagement.thesis.model.CouncilPosition;
 
@@ -33,5 +31,7 @@ public interface CouncilPositionService {
     Long countMemberByCouncilId(Integer id);
 
     void deleteCouncilPosition(Integer id);
+
+
 
 }

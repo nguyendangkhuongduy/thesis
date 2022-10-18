@@ -1,9 +1,6 @@
 package com.duy.thesisManagement.thesis.controller;
 
-import com.duy.thesisManagement.thesis.dto.PasswordChangingDTO;
-import com.duy.thesisManagement.thesis.dto.UserCreationDTO;
-import com.duy.thesisManagement.thesis.dto.UserDTO;
-import com.duy.thesisManagement.thesis.dto.UserUpdatingDTO;
+import com.duy.thesisManagement.thesis.dto.*;
 import com.duy.thesisManagement.thesis.model.AppRole;
 import com.duy.thesisManagement.thesis.model.UsersResponse;
 import com.duy.thesisManagement.thesis.repository.RoleRepository;
@@ -115,6 +112,13 @@ public class UserController {
         @Valid @RequestBody UserUpdatingDTO userUpdatingDTO) {
         UserDTO user = this.userService.updateUser(id, userUpdatingDTO);
         return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/action/putAvt/{id}")
+    public ResponseEntity<String> putAvt(@PathVariable(value = "id") Integer id,
+                                          @Valid @RequestBody PutAvatarDTO putAvatarDTO) {
+        this.userService.putAvatar(id, putAvatarDTO);
+        return ResponseEntity.ok("Successfully put avt for user");
     }
 
     @DeleteMapping("/{id}")

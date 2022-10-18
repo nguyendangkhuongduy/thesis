@@ -30,8 +30,6 @@ public class ThesisServiceImpl implements ThesisService {
 
     private final ThesisPositionRepository thesisPositionRepository;
 
-    private final ThesisService thesisService;
-
     private final CouncilRepository councilRepository;
 
     private final CouncilCoreService councilCoreService;
@@ -115,6 +113,18 @@ public class ThesisServiceImpl implements ThesisService {
     }
 
     @Override
+    public void putFile(Integer id, ThesisPutFileDTO thesisPutFileDTO) {
+        Optional<Thesis> thesis = thesisRepository.findById(id);
+        if (thesis.isPresent()) {
+            Thesis a = thesis.get();
+            a.setFile(thesisPutFileDTO.getFile());
+            thesisRepository.save(a);
+            return;
+        }
+        throw new ResourceNotFoundException("Cannot put file");
+    }
+
+    @Override
     public void removeCouncil(Integer id) {
         Optional<Thesis> thesis = thesisRepository.findById(id);
         if (thesis.isPresent()) {
@@ -123,7 +133,7 @@ public class ThesisServiceImpl implements ThesisService {
             thesisRepository.save(a);
             return;
         }
-        throw new ResourceNotFoundException("Cannot remove council");
+        throw new ResourceNotFoundException("Cannot remove thesis with id: " + id);
     }
 
     @Override
@@ -185,21 +195,24 @@ public class ThesisServiceImpl implements ThesisService {
         throw new ResourceNotFoundException("Cannot find any thesis for Add score action with id: " + id);
     }
 
-//    @Override
-//    public List<ThesisRequestDTO> getThesisByUserId(Integer id) {
-//        Optional<User> user = userRepository.findById(id);
-//        List<ThesisPosition> thesisPositions = thesisPositionRepository.findByUserId(user.get());
-//        List<Thesis> getAll = thesisRepository.findByActiveTrue();
-//        List<Thesis> thesis = new ArrayList<Thesis>();
-//        for (int i = 0; i < thesisPositions.size(); i++) {
-//            ThesisPosition t = thesisPositions.get(i);
-//            if (t.getThesisId().getId() == getAll.get(i).getId()) {
-//                thesis.add(getAll.get(i));
-//            }
-//        }
-//        List<ThesisRequestDTO> result = thesis.stream().map(this::toThesisDTO).collect(Collectors.toList());
-//        return result;
-//}
+    @Override
+    public List<ThesisRequestDTO> getThesisByUserId(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+        List<ThesisPosition> thesisPositions = thesisPositionRepository.findByUserId(user.get());
+        List<Thesis> getAll = thesisRepository.findByActiveTrue();
+        List<Thesis> thesis = new ArrayList<>();
+        for (int i = 0; i < getAll.size(); i++) {
+            for(int j = 0; j < thesisPositions.size(); j++)
+            {
+                ThesisPosition t = thesisPositions.get(j);
+                if (t.getThesisId().getId() == getAll.get(i).getId()) {
+                    thesis.add(getAll.get(i));
+                }
+            }
+        }
+        List<ThesisRequestDTO> result = thesis.stream().map(this::toThesisDTO).collect(Collectors.toList());
+        return result;
+}
 
 
     private ThesisRequestDTO toThesisDTO(Thesis thesis) {
@@ -213,6 +226,9 @@ public class ThesisServiceImpl implements ThesisService {
                 .build();
         if (Objects.nonNull(thesis.getCouncilId())) {
             thesisDTO.setCouncil(thesis.getCouncilId().getName());
+        }
+        if (Objects.nonNull(thesis.getFile())) {
+            thesisDTO.setFile(thesis.getFile());
         }
         return thesisDTO;
     }
